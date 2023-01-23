@@ -1,0 +1,154 @@
+global:
+  images:
+    constant:
+      CORE: cytomine/core:v4.3.4
+      MONGO: registry.cytom.in/cm/rnd/cytomine/tools/envs/mongo/mongo:6.0.3-focal-0.2.0
+      POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis/postgis:15-3.3-0.2.0
+      RABBITMQ: registry.cytom.in/cm/rnd/cytomine/tools/envs/rabbitmq/rabbitmq:3.10-0.2.0
+      PIMS: cytomine/pims:master-20230112143212-SNAPSHOT-community-plugins 
+      PIMS_CACHE: redis
+      BIOFORMAT: cytomine/bioformat:v1.2.0
+      WEB_UI: cytomine/web_ui:v2.4.1-beta.1
+
+  host_paths:
+    constant:
+      IMAGES_BUFFER: /data/images/_buffer
+      IMAGES: /data/images
+      JAVAMELODY: /javamelody-core
+  
+  container_paths:
+    constant:
+      IMAGES: /data/images
+      UPLOADED: /tmp/uploaded
+  
+  javamelody:
+    constant:
+      DATA_PATH: /javamelody-core # inside container
+      USER: admin
+    auto:
+      PASS:
+        type: openssl
+        length: 32
+
+  postgisdb:
+    constant:
+      HOST: postgis  # no port
+      PORT: 5432 
+      DB_NAME: docker
+      USER: docker
+    auto:
+      PASS:
+        type: openssl
+        length: 32
+
+  mongodb:
+    constant:
+      USER: mongoadmin
+      DB_NAME: cytomine
+      HOST: mongo
+      PORT: 27017
+    auto:
+      PASS: 
+        type: openssl
+        length: 32
+
+  keys:
+    auto:
+      IMAGE_SERVER_PRIVATE: random_uuid
+      IMAGE_SERVER_PUBLIC: random_uuid
+
+  smtp:
+    constant:
+      HOST:
+      PORT:
+      USER:
+      PASS:
+
+  urls:
+    constant:
+      CORE: https://dev.cytom.in
+      IMAGE_SERVER1: https://dev-ims.cytom.in
+      IMAGE_SERVER2: https://dev-ims2.cytom.in
+      UPLOAD: https://dev-upload.cytom.in
+
+
+services:
+  default:
+    core:
+      constant:
+        ADMIN_EMAIL: info@cytomine.coop
+        INSTANCE_HOST_SUPPORT_MAIL:
+        INSTANCE_HOST_PHONE_NUMBER:
+      auto:
+        SERVER_ID: random_uuid
+        JWT_SECRET:
+          type: openssl
+          lenght: 64
+        ADMIN_PASSWORD: 
+          type: openssl
+          length: 32
+        ADMIN_PRIVATE_KEY: random_uuid
+        ADMIN_PUBLIC_KEY: random_uuid
+        SUPER_ADMIN_PRIVATE_KEY: random_uuid
+        SUPER_ADMIN_PUBLIC_KEY: random_uuid
+        RABBITMQ_PRIVATE_KEY: random_uuid
+        RABBITMQ_PUBLIC_KEY: random_uuid
+      global:
+        IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
+        IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
+        POSTGIS_HOST: postgisdb.HOST
+        POSTGIS_PORT: postgisdb.PORT
+        POSTGIS_DB_NAME: postgisdb.DB_NAME
+        POSTGIS_USER: postgisdb.USER
+        POSTGIS_PASS: postgisdb.PASS
+        SMTP_HOST: smtp.HOST
+        SMTP_PORT: smtp.PORT
+        SMTP_USER: smtp.USER
+        SMTP_PASS: smtp.PASS
+        MONGO_HOST: mongodb.HOST
+        MONGO_PORT: mongodb.PORT
+        MONGO_USER: mongodb.USER
+        MONGO_PASS: mongodb.PASS
+        MONGO_DB_NAME: mongodb.DB_NAME
+        JAVAMELODY_PATH: javamelody.PATH
+        JAVAMELODY_USER: javamelody.USER
+        JAVAMELODY_PASS: javamelody.PASS
+        URL_CORE: urls.CORE
+        URL_IMS1: urls.IMAGE_SERVER1
+        URL_IMS2: urls.IMAGE_SERVER2
+        URL_UPLOAD: urls.UPLOAD
+        INSTANCE_HOST_WEBSITE_URL: urls.CORE 
+
+    mongo:
+      global:
+        MONGO_INITDB_ROOT_USERNAME: mongodb.USER
+        MONGO_INITDB_ROOT_PASSWORD: mongodb.PASS
+        MONGO_INIT_DATABASE: mongodb.DB_NAME
+
+    bioformat:
+      constant:
+        BIOFORMAT_PORT: 4321
+
+    pims:
+      constant:
+        WEB_CONCURRENCY: 4
+        MAX_REQUESTS: 25
+        LOG_CONFIG_FILE: /app/logging-debug.yml
+        DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
+        DEFAULT_ANNOTATION_ORIGIN: LEFT_TOP
+        OUTPUT_SIZE_LIMIT: 10000
+        task_queue_enabled: false
+        cache_enabled: true
+      global: 
+        CYTOMINE_PUBLIC_KEY: keys.IMAGE_SERVER_PRIVATE
+        CYTOMINE_PRIVATE_KEY: keys.IMAGE_SERVER_PUBLIC
+        ROOT: container_paths.IMAGES
+        PENDING_PATH: container_paths.UPLOADED
+        PIMS_URL: urls.IMAGE_SERVER1
+
+    web_ui:
+      global:
+        URL_CORE: urls.CORE
+        URL_UPLOAD: urls.UPLOAD
+
+
