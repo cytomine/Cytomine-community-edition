@@ -1,7 +1,7 @@
 global:
   images:
     constant:
-      CORE: cytomine/core:v4.3.4
+      CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.3
       MONGO: registry.cytom.in/cm/rnd/cytomine/tools/envs/mongo/mongo:6.0.3-focal-0.2.0
       POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis/postgis:15-3.3-0.2.0
       RABBITMQ: registry.cytom.in/cm/rnd/cytomine/tools/envs/rabbitmq/rabbitmq:3.10-0.2.0
