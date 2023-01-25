@@ -2,15 +2,15 @@ version: "3.9"
 services:
 
   mongo:
-    image: $IMAGE_MONGO
-    name: mongo
+    image: $IMAGES_MONGO
+    container_name: mongo
     restart: unless-stopped
     volumes:
       - mongo_data:/data/db 
 
   postgis:
-    image: $IMAGE_POSTGIS
-    name: postgis
+    image: $IMAGES_POSTGIS
+    container_name: postgis
     restart: unless-stopped
     volumes:
       - postgis_data:/var/lib/postgresql
@@ -21,23 +21,28 @@ services:
           memory: 8G
 
   rabbitmq:
-    image: $IMAGE_RABBITMQ
-    name: rabbitmq
+    image: $IMAGES_RABBITMQ
+    container_name: rabbitmq
     restart: unless-stopped
     ports:
       - 5672
       - 15672
 
   bioformat:
-    image: $IMAGE_BIOFORMAT
-    name: bioformat
+    image: $IMAGES_BIOFORMAT
+    container_name: bioformat
     restart: unless-stopped
     volumes:
       - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
-    
+  
+  pims-cache:
+    image: $IMAGES_PIMS_CACHE
+    container_name: pims-cache
+    restart: unless-stopped
+
   pims: 
-    image: $IMAGE_PIMS
-    name: pims
+    image: $IMAGES_PIMS
+    container_name: pims
     restart: unless-stopped
     depends_on:
       - pims-cache
@@ -53,28 +58,28 @@ services:
           memory: 4G
     
   core:
-    image: $IMAGE_CORE
-    name: core
+    image: $IMAGES_CORE
+    container_name: core
     restart: unless-stopped
     depends_on:
       - postgis
       - mongo
       - rabbitmq
     volumes:
-      - $HOST_PATHS_JAVAMELODY:$JAVAMELODY_PATH
+      - $HOST_PATHS_JAVAMELODY:$JAVAMELODY_DATA_PATH
       - /etc/localtime:/etc/localtime
 
   web_ui:
-    image: $IMAGE_WEBUI
-    name: web_ui
+    image: $IMAGES_WEB_UI
+    container_name: web_ui
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime
 
   nginx:
-    image: $IMAGE_NGINX
-    name: nginx
-    restart: unless_stopped
+    image: $IMAGES_NGINX
+    container_name: nginx
+    restart: unless-stopped
     depends_on:
       - pims
       - core
@@ -85,5 +90,5 @@ services:
       - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
     
 volumes:
-  - mongo_data
-  - postgis_data
+  mongo_data:
+  postgis_data:
