@@ -54,7 +54,6 @@ services:
       resources:
         # limits or reservations ?
         reservations:
-          cpus: '4'
           memory: 4G
     
   core:
@@ -80,10 +79,6 @@ services:
     image: $IMAGES_NGINX
     container_name: nginx
     restart: unless-stopped
-    depends_on:
-      - pims
-      - core
-      - web_ui
     ports:
       - 80
     volumes:

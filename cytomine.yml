@@ -1,15 +1,15 @@
 global:
   images:
     constant:
-      CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.3
-      MONGO: mongo:6.0.3-focal
-      POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis/postgis:15-3.3-0.2.0
-      RABBITMQ: rabbitmq:3.10
-      PIMS: cytomine/pims:master-20230112143212-SNAPSHOT-community-plugins
-      PIMS_CACHE: redis:7.0.8
       BIOFORMAT: cytomine/bioformat:v1.2.0
+      CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.5-beta.6
+      MONGO: mongo:6.0.3-focal
+      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-alpine-1.1.0
+      PIMS_CACHE: redis:7.0.8
+      PIMS: cytomine/pims:master-20230112143212-SNAPSHOT-community-plugins
+      POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
+      RABBITMQ: rabbitmq:3.10
       WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/community-frontend/web_ui:2.4.1-beta.1
-      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx/nginx:1.22.1-alpine-v1.0.0
 
   host_paths:
     constant:
@@ -31,7 +31,7 @@ global:
         type: openssl
         length: 32
 
-  postgisdb:
+  postgres:
     constant:
       HOST: postgis  # no port
       PORT: 5432
@@ -60,17 +60,17 @@ global:
 
   smtp:
     constant:
-      HOST:
-      PORT:
-      USER:
-      PASS:
+      HOST: mail.smtp
+      PORT: 587
+      USER: user
+      PASS: password
 
   urls:
     constant:
-      CORE: localhost-core
-      IMAGE_SERVER1: localhost-ims
-      IMAGE_SERVER2: localhost-ims2
-      UPLOAD: localhost-upload
+      CORE: core
+      IMAGE_SERVER1: ims
+      IMAGE_SERVER2: ims2
+      UPLOAD: upload
 
 
 services:
@@ -97,11 +97,11 @@ services:
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        POSTGIS_HOST: postgisdb.HOST
-        POSTGIS_PORT: postgisdb.PORT
-        POSTGIS_DB_NAME: postgisdb.DB_NAME
-        POSTGIS_USER: postgisdb.USER
-        POSTGIS_PASS: postgisdb.PASS
+        POSTGIS_HOST: postgres.HOST
+        POSTGIS_PORT: postgres.PORT
+        POSTGIS_DB_NAME: postgres.DB_NAME
+        POSTGIS_USER: postgres.USER
+        POSTGIS_PASS: postgres.PASS
         SMTP_HOST: smtp.HOST
         SMTP_PORT: smtp.PORT
         SMTP_USER: smtp.USER
@@ -152,4 +152,8 @@ services:
         URL_CORE: urls.CORE
         URL_UPLOAD: urls.UPLOAD
 
-
+    postgis:
+      global:
+        POSTGRES_USER: postgres.USER
+        POSTGRES_PASSWORD: postgres.PASS
+        POSTGRES_DB: postgres.DB_NAME
