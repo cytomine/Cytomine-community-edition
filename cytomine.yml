@@ -4,13 +4,31 @@ global:
       BIOFORMAT: cytomine/bioformat:v1.2.0
       CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.5-beta.6
       MONGO: mongo:6.0.3-focal
-      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-alpine-1.1.0
+      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
       PIMS: cytomine/pims:master-20230112143212-SNAPSHOT-community-plugins
       POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
       WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/community-frontend/web_ui:2.4.1-beta.1
 
+  urls: # add these urls to your /etc/hosts (mapping nginx container ip)
+    constant:
+      CORE: cytomine.local
+      IMAGE_SERVER: ims.cytomine.local
+      UPLOAD: upload.cytomine.local
+
+  internal_docker_urls: # must match respective container hostnames from compose file
+    constant: 
+      WEB_UI: web_ui
+      CORE: core:8080
+      PIMS: pims:5000
+      RABBITMQ: rabbitmq
+      BIOFORMAT: bioformat
+      MONGO: mongo
+      NGINX: nginx
+      PIMS_CACHE: pims_cache
+      POSTGIS: postgis
+      
   host_paths:
     constant:
       IMAGES_BUFFER: /data/images/_buffer
@@ -33,7 +51,6 @@ global:
 
   postgres:
     constant:
-      HOST: postgis  # no port
       PORT: 5432
       DB_NAME: docker
       USER: docker
@@ -46,7 +63,6 @@ global:
     constant:
       USER: mongoadmin
       DB_NAME: cytomine
-      HOST: mongo
       PORT: 27017
     auto:
       PASS:
@@ -64,14 +80,6 @@ global:
       PORT: 587
       USER: user
       PASS: password
-
-  urls:
-    constant:
-      CORE: core
-      IMAGE_SERVER1: ims
-      IMAGE_SERVER2: ims2
-      UPLOAD: upload
-
 
 services:
   default:
@@ -97,7 +105,7 @@ services:
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        POSTGIS_HOST: postgres.HOST
+        POSTGIS_HOST: internal_docker_urls.POSTGIS
         POSTGIS_PORT: postgres.PORT
         POSTGIS_DB_NAME: postgres.DB_NAME
         POSTGIS_USER: postgres.USER
@@ -106,7 +114,7 @@ services:
         SMTP_PORT: smtp.PORT
         SMTP_USER: smtp.USER
         SMTP_PASS: smtp.PASS
-        MONGO_HOST: mongodb.HOST
+        MONGO_HOST: internal_docker_urls.MONGO
         MONGO_PORT: mongodb.PORT
         MONGO_USER: mongodb.USER
         MONGO_PASS: mongodb.PASS
@@ -115,8 +123,8 @@ services:
         JAVAMELODY_USER: javamelody.USER
         JAVAMELODY_PASS: javamelody.PASS
         URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER1
-        URL_IMS2: urls.IMAGE_SERVER2
+        URL_IMS1: urls.IMAGE_SERVER
+        URL_IMS2: urls.IMAGE_SERVER
         URL_UPLOAD: urls.UPLOAD
         INSTANCE_HOST_WEBSITE_URL: urls.CORE 
 
@@ -145,7 +153,7 @@ services:
         CYTOMINE_PRIVATE_KEY: keys.IMAGE_SERVER_PUBLIC
         ROOT: container_paths.IMAGES
         PENDING_PATH: container_paths.UPLOADED
-        PIMS_URL: urls.IMAGE_SERVER1
+        PIMS_URL: urls.IMAGE_SERVER
 
     web_ui:
       global:
@@ -157,3 +165,13 @@ services:
         POSTGRES_USER: postgres.USER
         POSTGRES_PASSWORD: postgres.PASS
         POSTGRES_DB: postgres.DB_NAME
+
+    nginx:
+      global:
+        INTERNAL_URLS_WEB_UI: internal_docker_urls.WEB_UI
+        INTERNAL_URLS_CORE: internal_docker_urls.CORE
+        INTERNAL_URLS_IMS: internal_docker_urls.PIMS
+        URLS_CORE: urls.CORE
+        URLS_IMAGE_SERVER: urls.IMAGE_SERVER
+        URLS_UPLOAD: urls.UPLOAD
+        UPLOAD_PATH: container_paths.UPLOADED

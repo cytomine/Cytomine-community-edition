@@ -79,6 +79,10 @@ services:
     image: $IMAGES_NGINX
     container_name: nginx
     restart: unless-stopped
+    depends_on:
+      - core
+      - web_ui
+      - pims
     ports:
       - 80
     volumes:
