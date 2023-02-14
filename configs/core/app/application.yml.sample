@@ -48,7 +48,7 @@ application:
   serverURL: $URL_CORE
   imageServerURL: [$URL_IMS1, $URL_IMS2]
 
-  storagePath: "$CONTAINER_PATHS_IMAGES"
+  storagePath: $STORAGE_PATH
   adminPassword: $ADMIN_PASSWORD
   adminEmail: $ADMIN_EMAIL
   adminPrivateKey: $ADMIN_PRIVATE_KEY

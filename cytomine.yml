@@ -6,7 +6,7 @@ global:
       MONGO: mongo:6.0.3-focal
       NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims:master-20230112143212-SNAPSHOT-community-plugins
+      PIMS: cytomine/pims:master-20230131163125-SNAPSHOT-community-plugins
       POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
       WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/community-frontend/web_ui:2.4.1-beta.1
@@ -16,6 +16,12 @@ global:
       CORE: cytomine.local
       IMAGE_SERVER: ims.cytomine.local
       UPLOAD: upload.cytomine.local
+
+  urls_with_scheme:
+    constant:
+      CORE: http://cytomine.local
+      IMAGE_SERVER: http://ims.cytomine.local
+      UPLOAD: http://upload.cytomine.local
 
   internal_docker_urls: # must match respective container hostnames from compose file
     constant: 
@@ -86,6 +92,7 @@ services:
     core:
       constant:
         ADMIN_EMAIL: info@cytomine.coop
+        REVERSE_PROXY_URL: nginx
         INSTANCE_HOST_SUPPORT_MAIL:
         INSTANCE_HOST_PHONE_NUMBER:
       auto:
@@ -93,6 +100,7 @@ services:
         JWT_SECRET:
           type: secret
           length: 256
+          whitelist: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789#&'*+,-./:;<=>?@\^_~
         ADMIN_PASSWORD:
           type: openssl
           length: 32
@@ -122,12 +130,11 @@ services:
         JAVAMELODY_PATH: javamelody.DATA_PATH
         JAVAMELODY_USER: javamelody.USER
         JAVAMELODY_PASS: javamelody.PASS
-        URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER
-        URL_IMS2: urls.IMAGE_SERVER
-        URL_UPLOAD: urls.UPLOAD
-        INSTANCE_HOST_WEBSITE_URL: urls.CORE 
-
+        URL_CORE: urls_with_scheme.CORE
+        URL_IMS1: urls_with_scheme.IMAGE_SERVER
+        URL_IMS2: urls_with_scheme.IMAGE_SERVER
+        INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CORE
+        STORAGE_PATH: container_paths.IMAGES
     mongo:
       global:
         MONGO_INITDB_ROOT_USERNAME: mongodb.USER
@@ -153,12 +160,12 @@ services:
         CYTOMINE_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         ROOT: container_paths.IMAGES
         PENDING_PATH: container_paths.UPLOADED
-        PIMS_URL: urls.IMAGE_SERVER
+        PIMS_URL: urls_with_scheme.IMAGE_SERVER
 
     web_ui:
       global:
-        URL_CORE: urls.CORE
-        URL_UPLOAD: urls.UPLOAD
+        URL_CORE: urls_with_scheme.CORE
+        URL_UPLOAD: urls_with_scheme.UPLOAD
 
     postgis:
       global:
