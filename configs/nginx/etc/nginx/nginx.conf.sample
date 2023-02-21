@@ -18,11 +18,9 @@ load_module 'modules/ngx_http_upload_module.so';
 worker_processes  1;
 daemon off; 
 
-
 events {
     worker_connections  1024;
 }
-
 
 http {
     include       mime.types;
@@ -87,9 +85,9 @@ http {
             proxy_pass http://$INTERNAL_URLS_CORE;
         }
         location ~ /(restApiDoc|js/jsondoc|css/jsondoc) {
-               proxy_set_header X-Real-IP $remote_addr;
-               proxy_set_header Host $host;
-               proxy_pass http://$INTERNAL_URLS_CORE;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header Host $host;
+            proxy_pass http://$INTERNAL_URLS_CORE;
         }
 
         proxy_http_version 1.1;
@@ -100,8 +98,8 @@ http {
 
         error_page 404 = /cytomine-page-not-found;
         location /cytomine-page-not-found {
-                default_type "text/html";
-                alias /opt/nginx/nginx-1.10.1/html/404.html;
+            default_type "text/html";
+            alias /opt/nginx/nginx-1.10.1/html/404.html;
         }
     }
     server {
