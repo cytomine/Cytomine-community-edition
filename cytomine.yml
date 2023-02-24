@@ -3,7 +3,7 @@ global:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
       CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.5-beta.6
-      MONGO: mongo:6.0.3-focal
+      MONGO: mongo:4.4.18-focal
       NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
       PIMS: cytomine/pims:master-20230131163125-SNAPSHOT-community-plugins
