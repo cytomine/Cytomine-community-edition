@@ -1,8 +1,17 @@
 global:
+  docker:
+    constant:
+      namespace: registry.cytom.in/cm/rnd/cytomine/core/core-ce
+      user: 1000
+      group: 1000
+  core_build:
+    constant:
+      CONTEXT: /home/rmormont/repos/cytomine/backend/core-ce
+      DOCKERFILE: /home/rmormont/repos/cytomine/backend/core-ce/docker/Dockerfile
+
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: registry.cytom.in/cm/rnd/cytomine/core/spring-core/core:v4.3.5-beta.6
       MONGO: mongo:4.4.18-focal
       NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
@@ -37,80 +46,47 @@ global:
       
   host_paths:
     constant:
-      IMAGES_BUFFER: /data/images/_buffer
-      IMAGES: /data/images
+      IMAGES_BUFFER: /data/dev/images/_buffer
+      IMAGES: /data/dev/images
       JAVAMELODY: /javamelody-core
+      CORE_REPOSITORY: /home/rmormont/repos/cytomine/backend/core-ce
 
   container_paths:
     constant:
-      IMAGES: /data/images
+      IMAGES: /data/dev/images
       UPLOADED: /tmp/uploaded
 
   javamelody:
     constant:
       DATA_PATH: /javamelody-core # inside container
       USER: admin
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   postgres:
     constant:
       PORT: 5432
       DB_NAME: docker
       USER: docker
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   mongodb:
     constant:
       USER: mongoadmin
       DB_NAME: cytomine
       PORT: 27017
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   keys:
     auto:
       IMAGE_SERVER_PRIVATE: random_uuid
       IMAGE_SERVER_PUBLIC: random_uuid
 
-  smtp:
-    constant:
-      HOST: mail.smtp
-      PORT: 587
-      USER: user
-      PASS: password
-
 services:
   default:
     core:
       constant:
-        ADMIN_EMAIL: info@cytomine.coop
         REVERSE_PROXY_URL: nginx
-        INSTANCE_HOST_SUPPORT_MAIL:
-        INSTANCE_HOST_PHONE_NUMBER:
-      auto:
-        SERVER_ID: random_uuid
-        JWT_SECRET:
-          type: secret
-          length: 256
-          whitelist: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'+.;^_~
-        ADMIN_PASSWORD:
-          type: openssl
-          length: 32
-        ADMIN_PRIVATE_KEY: random_uuid
-        ADMIN_PUBLIC_KEY: random_uuid
-        SUPER_ADMIN_PRIVATE_KEY: random_uuid
-        SUPER_ADMIN_PUBLIC_KEY: random_uuid
-        RABBITMQ_PRIVATE_KEY: random_uuid
-        RABBITMQ_PUBLIC_KEY: random_uuid
-      global:
+      global: 
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
         POSTGIS_HOST: internal_docker_urls.POSTGIS
@@ -118,23 +94,15 @@ services:
         POSTGIS_DB_NAME: postgres.DB_NAME
         POSTGIS_USER: postgres.USER
         POSTGIS_PASS: postgres.PASS
-        SMTP_HOST: smtp.HOST
-        SMTP_PORT: smtp.PORT
-        SMTP_USER: smtp.USER
-        SMTP_PASS: smtp.PASS
         MONGO_HOST: internal_docker_urls.MONGO
         MONGO_PORT: mongodb.PORT
         MONGO_USER: mongodb.USER
         MONGO_PASS: mongodb.PASS
         MONGO_DB_NAME: mongodb.DB_NAME
-        JAVAMELODY_PATH: javamelody.DATA_PATH
-        JAVAMELODY_USER: javamelody.USER
-        JAVAMELODY_PASS: javamelody.PASS
-        URL_CORE: urls_with_scheme.CORE
-        URL_IMS1: urls_with_scheme.IMAGE_SERVER
-        URL_IMS2: urls_with_scheme.IMAGE_SERVER
-        INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CORE
-        STORAGE_PATH: container_paths.IMAGES
+        URL_CORE: urls.CORE
+        URL_IMS1: urls.IMAGE_SERVER
+        URL_IMS2: urls.IMAGE_SERVER
+        URL_UPLOAD: urls.UPLOAD
 
     mongo:
       global:
@@ -183,3 +151,10 @@ services:
         URLS_IMAGE_SERVER: urls.IMAGE_SERVER
         URLS_UPLOAD: urls.UPLOAD
         UPLOAD_PATH: container_paths.UPLOADED
+
+    etc_hosts_rewriter:
+      global:
+        URL_CORE: urls.CORE
+        URL_IMS1: urls.IMAGE_SERVER
+        URL_IMS2: urls.IMAGE_SERVER
+        URL_UPLOAD: urls.UPLOAD

@@ -19,7 +19,6 @@ services:
         # limits or reservations ?
         reservations:
           memory: 8G
-
   rabbitmq:
     image: $IMAGES_RABBITMQ
     container_name: rabbitmq
@@ -55,16 +54,25 @@ services:
         # limits or reservations ?
         reservations:
           memory: 4G
-    
+
   core:
-    image: $IMAGES_CORE
+    build:
+      dockerfile: $CORE_BUILD_DOCKERFILE
+      context: $CORE_BUILD_CONTEXT
+      target: development
+      args:
+        CORE_VERSION: 0.0.0-dev
+        SCRIPTS_REPO_TAG: latest
     container_name: core
     restart: unless-stopped
+    ports:
+      - "5005:5005"
     depends_on:
       - postgis
       - mongo
       - rabbitmq
     volumes:
+      - $HOST_PATHS_CORE_REPOSITORY:/app  # mounting code
       - $HOST_PATHS_JAVAMELODY:$JAVAMELODY_DATA_PATH
       - /etc/localtime:/etc/localtime
 
@@ -87,7 +95,17 @@ services:
       - 80
     volumes:
       - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
-    
+
+  # to map nginx ip with urls to host's /etc/hosts
+  etc_hosts_rewriter:
+    image: alpine:latest
+    entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
+    depends_on:
+      - nginx
+      - core
+    volumes:
+      - /etc:/local_etc/
+
 volumes:
   mongo_data:
   postgis_data:
