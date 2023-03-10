@@ -1,6 +1,6 @@
 #!/bin/sh
 
-IP=$(getent hosts nginx | awk '{print $1}')
+IP=$(getent hosts $PROXY_HOSTNAME | awk '{print $1}')
 
 if [ -z $IP ]; then
   echo "Cannot resolve 'nginx' (no ip found), skipping /etc/hosts configuration."
@@ -33,18 +33,5 @@ else
     echo $entry >> /local_etc/hosts
     echo "Added '$entry' to /etc/hosts"
   fi
-fi
-
-CORE_IP=$(getent hosts CORE | awk '{print $1}')
-
-if [ -z $IP ]; then
-  echo "Cannot resolve 'core' (no ip found), skipping /etc/hosts configuration for debugger."
-  exit
-else
-  JVM_DEBUGGING_URL=core-debugger
-  sed -i "/$JVM_DEBUGGING_URL/d" /local_etc/hosts
-  entry="$CORE_IP $JVM_DEBUGGING_URL"
-  echo $entry >> /local_etc/hosts
-  echo "Added '$entry' to /etc/hosts"
 fi
 
