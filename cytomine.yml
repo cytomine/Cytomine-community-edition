@@ -4,10 +4,6 @@ global:
       namespace: registry.cytom.in/cm/rnd/cytomine/core/core-ce
       user: 1000
       group: 1000
-  core_build:
-    constant:
-      CONTEXT: /home/rmormont/repos/cytomine/backend/core-ce
-      DOCKERFILE: /home/rmormont/repos/cytomine/backend/core-ce/docker/Dockerfile
 
   images:
     constant:
@@ -49,7 +45,7 @@ global:
       IMAGES_BUFFER: /data/dev/images/_buffer
       IMAGES: /data/dev/images
       JAVAMELODY: /javamelody-core
-      CORE_REPOSITORY: /home/rmormont/repos/cytomine/backend/core-ce
+      CORE_REPOSITORY: /code/core-ce
 
   container_paths:
     constant:
