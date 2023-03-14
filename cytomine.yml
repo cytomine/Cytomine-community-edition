@@ -58,8 +58,8 @@ global:
 
   keys:
     auto:
-      IMAGE_SERVER_PRIVATE: random_uuid
-      IMAGE_SERVER_PUBLIC: random_uuid
+      IMAGE_SERVER_PRIVATE: imageServerPrivateKey
+      IMAGE_SERVER_PUBLIC: imageServerPublicKey
 
 services:
   default:
