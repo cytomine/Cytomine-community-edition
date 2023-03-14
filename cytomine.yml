@@ -8,7 +8,6 @@ global:
       PIMS: cytomine/pims:master-20230131163125-SNAPSHOT-community-plugins
       POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/community-frontend/web_ui:2.4.1-beta.1
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
@@ -36,6 +35,7 @@ global:
     constant:
       IMAGES_BUFFER: /data/dev/images/_buffer
       IMAGES: /data/dev/images
+      WEB_UI_SRC: /code/Cytomine-Web-UI
 
   container_paths:
     constant:
@@ -93,6 +93,7 @@ services:
     web_ui:
       global:
         WEB_UI_LISTEN_PORT: web_ui.PORT
+        ALLOWED_HOSTS: urls.CORE
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
 

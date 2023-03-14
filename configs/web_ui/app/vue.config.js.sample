@@ -1,0 +1,6 @@
+module.exports = {
+  devServer: {
+    allowedHosts: ['$ALLOWED_HOSTS'],
+    port: '$WEB_UI_LISTEN_PORT'
+  },
+};

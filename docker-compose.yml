@@ -60,11 +60,18 @@ services:
           memory: 4G
 
   web_ui:
-    image: $IMAGES_WEB_UI
+    build:
+      context: $HOST_PATHS_WEB_UI_SRC
+      dockerfile: docker/Dockerfile
+      target: dev-server
+      args:
+        SCRIPTS_REPO_TAG: latest
+    working_dir: "/app"
     network_mode: host
     container_name: web_ui
     restart: unless-stopped
     volumes:
+      - $HOST_PATHS_WEB_UI_SRC:/app
       - /etc/localtime:/etc/localtime
 
   nginx:
