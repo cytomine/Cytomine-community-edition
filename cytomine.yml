@@ -57,7 +57,7 @@ global:
       PASS: password
 
   keys:
-    auto:
+    constant:
       IMAGE_SERVER_PRIVATE: imageServerPrivateKey
       IMAGE_SERVER_PUBLIC: imageServerPublicKey
 
