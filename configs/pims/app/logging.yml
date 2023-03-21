@@ -2,7 +2,12 @@ version: 1
 
 formatters:
   basic:
-    format: "[%(process)s][%(threadName)s] %(name)s - %(message)s"
+    class: pims.logger.StdoutFormatter
+    format: "[%(process)s][%(threadName)s] %(message)s"
+  complete:
+    class: pims.logger.StdoutFormatter
+    format: "[%(asctime)s][%(levelname)s][%(process)s][%(threadName)s] %(message)s"
+
 
 handlers:
   console:
