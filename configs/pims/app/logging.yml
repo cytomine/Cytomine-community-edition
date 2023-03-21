@@ -1,0 +1,38 @@
+version: 1
+
+formatters:
+  basic:
+    format: "[%(process)s][%(threadName)s] %(name)s - %(message)s"
+
+handlers:
+  console:
+    class: pims.logger.PimsHandler
+    level: DEBUG
+    formatter: basic
+    rich_tracebacks: True
+    markup: True
+    log_time_format: '[%x %H:%M:%S.%f]'
+
+loggers:
+  pims:
+    level: DEBUG
+  pims.app:
+    level: DEBUG
+  pims.cytomine:
+    level: CRITICAL
+    handlers: [console]
+    propagate: false
+  pyvips:
+    level: INFO
+  pyvips.vobject:
+    level: ERROR
+  uvicorn:
+    level: DEBUG
+  uvicorn.access:
+    level: CRITICAL
+  cytomine.client:
+    level: INFO
+
+root:
+  handlers: [console]
+  level: DEBUG
