@@ -83,6 +83,8 @@ services:
       - core
       - web_ui
       - pims
+    ports:
+      - 80:80
     volumes:
       - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
     
