@@ -87,7 +87,17 @@ services:
       - 80:80
     volumes:
       - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
-    
+  
+  # to map nginx ip with urls to host's /etc/hosts
+  etc_hosts_rewriter:
+    image: alpine:latest
+    network_mode: host
+    entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
+    depends_on:
+      - nginx
+    volumes:
+      - /etc:/local_etc/
+
 volumes:
   mongo_data:
   postgis_data:
