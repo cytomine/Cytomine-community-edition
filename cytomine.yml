@@ -2,14 +2,14 @@ global:
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: registry.cytom.in/cm/rnd/cytomine/core/core-ce:48e07a59-20230321141654-SNAPSHOT
+      CORE: cytomine/core:v4.3.5-beta.6
       MONGO: mongo:4.4.18-focal
-      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
+      NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: registry.cytom.in/cm/rnd/cytomine/ims/pims-ce:0.13.6b1
-      POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
+      PIMS: cytomine/pims:v0.13.6-beta.1
+      POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/web-ui-ce:9d0cab07-20230321145023-SNAPSHOT
+      WEB_UI: cytomine/web_ui:v2.5.0-beta.2
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
