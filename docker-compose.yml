@@ -3,7 +3,6 @@ services:
 
   mongo:
     image: $IMAGES_MONGO
-    network_mode: host
     container_name: mongo
     restart: unless-stopped
     volumes:
@@ -11,7 +10,6 @@ services:
 
   postgis:
     image: $IMAGES_POSTGIS
-    network_mode: host
     container_name: postgis
     restart: unless-stopped
     volumes:
@@ -24,13 +22,11 @@ services:
 
   rabbitmq:
     image: $IMAGES_RABBITMQ
-    network_mode: host
     container_name: rabbitmq
     restart: unless-stopped
 
   bioformat:
     image: $IMAGES_BIOFORMAT
-    network_mode: host
     container_name: bioformat
     restart: unless-stopped
     volumes:
@@ -38,13 +34,11 @@ services:
 
   pims-cache:
     image: $IMAGES_PIMS_CACHE
-    network_mode: host
     container_name: pims-cache
     restart: unless-stopped
 
   pims: 
     image: $IMAGES_PIMS
-    network_mode: host
     container_name: pims
     restart: unless-stopped
     depends_on:
@@ -61,7 +55,6 @@ services:
 
   web_ui:
     image: $IMAGES_WEB_UI
-    network_mode: host
     container_name: web_ui
     restart: unless-stopped
     volumes:
@@ -69,11 +62,12 @@ services:
 
   nginx:
     image: $IMAGES_NGINX
-    network_mode: host
     container_name: nginx
     restart: unless-stopped
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    ports:
+      - "$NGINX_LISTEN_PORT:80"
     depends_on:
       - web_ui
       - pims
@@ -83,7 +77,6 @@ services:
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
     image: alpine:latest
-    network_mode: host
     entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
     depends_on:
       - nginx

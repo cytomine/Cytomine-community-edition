@@ -3,12 +3,12 @@ global:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
       MONGO: mongo:4.4.18-focal
-      NGINX: registry.cytom.in/cm/rnd/cytomine/tools/envs/nginx:1.22.1-1.2.0
+      NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
       PIMS: cytomine/pims:master-20230131163125-SNAPSHOT-community-plugins
-      POSTGIS: registry.cytom.in/cm/rnd/cytomine/tools/envs/postgis:15-3.3-alpine-1.2.0
+      POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: registry.cytom.in/cm/rnd/cytomine/frontend/community-frontend/web_ui:2.4.1-beta.1
+      WEB_UI: cytomine/web_ui:2.4.1-beta.1
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
@@ -24,9 +24,9 @@ global:
 
   internal_docker_urls: # must match respective container hostnames from compose file
     constant: 
-      WEB_UI: 127.0.0.1:8887
-      CORE: 127.0.0.1:8080
-      PIMS: 127.0.0.1:5000
+      WEB_UI: web_ui:8887
+      CORE: host.docker.internal:8080
+      PIMS: pims:5000
 
   web_ui:
     constant:
