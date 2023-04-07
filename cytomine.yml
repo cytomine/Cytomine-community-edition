@@ -5,7 +5,7 @@ global:
       MONGO: mongo:4.4.18-focal
       NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims:master-20230131163125-SNAPSHOT-community-plugins
+      PIMS: cytomine/pims:v0.13.6-beta.1
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
       
