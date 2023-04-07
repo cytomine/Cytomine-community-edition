@@ -5,6 +5,8 @@ services:
     image: $IMAGES_MONGO
     container_name: mongo
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     volumes:
       - mongo_data:/data/db 
 
@@ -12,6 +14,8 @@ services:
     image: $IMAGES_POSTGIS
     container_name: postgis
     restart: unless-stopped
+    ports:
+      - "$POSTGRES_PORT:5432"
     volumes:
       - postgis_data:/var/lib/postgresql
     deploy:
@@ -24,6 +28,9 @@ services:
     image: $IMAGES_RABBITMQ
     container_name: rabbitmq
     restart: unless-stopped
+    ports:
+      - "5672:5672"
+      - "15672:15672"
 
   bioformat:
     image: $IMAGES_BIOFORMAT
@@ -31,6 +38,8 @@ services:
     restart: unless-stopped
     volumes:
       - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
+    ports:
+      - "4321:4321"
 
   pims-cache:
     image: $IMAGES_PIMS_CACHE
@@ -41,6 +50,8 @@ services:
     image: $IMAGES_PIMS
     container_name: pims
     restart: unless-stopped
+    ports:
+      - "5000:5000"
     depends_on:
       - pims-cache
       - rabbitmq
@@ -59,6 +70,8 @@ services:
     restart: unless-stopped
     volumes:
       - /etc/localtime:/etc/localtime
+    ports:
+      - "$WEB_UI_PORT:$WEB_UI_PORT"
 
   nginx:
     image: $IMAGES_NGINX
@@ -67,7 +80,7 @@ services:
     extra_hosts:
       - "host.docker.internal:host-gateway"
     ports:
-      - "$NGINX_LISTEN_PORT:80"
+      - "80:80"
     depends_on:
       - web_ui
       - pims
