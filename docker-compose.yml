@@ -61,6 +61,7 @@ services:
     container_name: core
     restart: unless-stopped
     depends_on:
+      - nginx
       - postgis
       - mongo
       - rabbitmq
@@ -80,7 +81,6 @@ services:
     container_name: nginx
     restart: unless-stopped
     depends_on:
-      - core
       - web_ui
       - pims
     ports:
