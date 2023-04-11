@@ -53,6 +53,7 @@ services:
     ports:
       - "5000:5000"
     depends_on:
+      - nginx
       - pims-cache
       - rabbitmq
     volumes:
@@ -83,7 +84,6 @@ services:
       - "80:80"
     depends_on:
       - web_ui
-      - pims
     volumes:
       - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
 
