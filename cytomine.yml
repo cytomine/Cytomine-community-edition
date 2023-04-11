@@ -8,7 +8,7 @@ global:
       PIMS: cytomine/pims:v0.13.6-beta.1
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
-      
+
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
       CORE: cytomine.local
@@ -26,6 +26,12 @@ global:
       WEB_UI: web_ui:8887
       CORE: host.docker.internal:8080
       PIMS: pims:5000
+      RABBITMQ: rabbitmq
+      BIOFORMAT: bioformat
+      MONGO: mongo
+      NGINX: nginx
+      PIMS_CACHE: pims_cache
+      POSTGIS: postgis
 
   web_ui:
     constant:
@@ -33,8 +39,6 @@ global:
 
   host_paths:
     constant:
-      IMAGES_BUFFER: /data/dev/images/_buffer
-      IMAGES: /data/dev/images
       WEB_UI_SRC: /code/Cytomine-Web-UI
 
   container_paths:
@@ -117,7 +121,7 @@ services:
 
     etc_hosts_rewriter:
       constant:
-        PROXY_HOSTNAME: localhost
+        PROXY_HOSTNAME: nginx
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
