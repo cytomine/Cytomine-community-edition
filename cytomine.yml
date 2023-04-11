@@ -34,12 +34,6 @@ global:
       NGINX: nginx
       PIMS_CACHE: pims_cache
       POSTGIS: postgis
-      
-  host_paths:
-    constant:
-      IMAGES_BUFFER: /data/images/_buffer
-      IMAGES: /data/images
-      JAVAMELODY: /javamelody-core
 
   container_paths:
     constant:
@@ -186,7 +180,7 @@ services:
 
     etc_hosts_rewriter:
       constant:
-        PROXY_HOSTNAME: localhost
+        PROXY_HOSTNAME: nginx
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
