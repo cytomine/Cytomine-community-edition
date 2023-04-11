@@ -27,15 +27,16 @@ global:
       WEB_UI: web_ui:8887
       CORE: host.docker.internal:8080
       PIMS: pims:5000
+      RABBITMQ: rabbitmq
+      BIOFORMAT: bioformat
+      MONGO: mongo
+      NGINX: nginx
+      PIMS_CACHE: pims_cache
+      POSTGIS: postgis
 
   web_ui:
     constant:
       PORT: 8887
-
-  host_paths:
-    constant:
-      IMAGES_BUFFER: /data/dev/images/_buffer
-      IMAGES: /data/dev/images
 
   container_paths:
     constant:

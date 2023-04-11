@@ -36,11 +36,11 @@ services:
     image: $IMAGES_BIOFORMAT
     container_name: bioformat
     restart: unless-stopped
-    volumes:
-      - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
     ports:
       - "4321:4321"
-
+    volumes:
+      - images_data:$CONTAINER_PATHS_IMAGES
+  
   pims-cache:
     image: $IMAGES_PIMS_CACHE
     container_name: pims-cache
@@ -57,8 +57,8 @@ services:
       - pims-cache
       - rabbitmq
     volumes:
-      - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
-      - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED  # why subpath of /data/images rather than another path ???
+      - images_data:$CONTAINER_PATHS_IMAGES
+      - download_data:$CONTAINER_PATHS_UPLOADED  # why subpath of /data/images rather than another path ???
     deploy:
       resources:
         # limits or reservations ?
@@ -85,8 +85,8 @@ services:
     depends_on:
       - web_ui
     volumes:
-      - $HOST_PATHS_IMAGES_BUFFER:$CONTAINER_PATHS_UPLOADED
-
+      - download_data:$CONTAINER_PATHS_UPLOADED
+  
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
     image: alpine:latest
@@ -99,3 +99,5 @@ services:
 volumes:
   mongo_data:
   postgis_data:
+  images_data:
+  download_data:
