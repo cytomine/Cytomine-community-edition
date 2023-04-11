@@ -91,7 +91,6 @@ services:
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
     image: alpine:latest
-    network_mode: host
     entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
     depends_on:
       - nginx
