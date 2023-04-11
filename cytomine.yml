@@ -186,7 +186,7 @@ services:
 
     etc_hosts_rewriter:
       constant:
-        PROXY_HOSTNAME: localhost
+        PROXY_HOSTNAME: nginx
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
