@@ -45,6 +45,7 @@ services:
     container_name: pims
     restart: unless-stopped
     depends_on:
+      - nginx
       - pims-cache
       - rabbitmq
     volumes:
@@ -82,7 +83,6 @@ services:
     restart: unless-stopped
     depends_on:
       - web_ui
-      - pims
     ports:
       - 80:80
     volumes:
