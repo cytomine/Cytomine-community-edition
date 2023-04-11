@@ -8,15 +8,11 @@ formatters:
     class: pims.logger.StdoutFormatter
     format: "[%(asctime)s][%(levelname)s][%(process)s][%(threadName)s] %(message)s"
 
-
 handlers:
   console:
-    class: pims.logger.PimsHandler
-    level: DEBUG
-    formatter: basic
-    rich_tracebacks: True
-    markup: True
-    log_time_format: '[%x %H:%M:%S.%f]'
+    class: logging.StreamHandler
+    level: INFO
+    formatter: complete
 
 loggers:
   pims:
