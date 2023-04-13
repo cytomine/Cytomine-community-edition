@@ -4,7 +4,7 @@ Cytomine Community Edition is the open source edition of the Cytomine software.
 
 This repo provide the new way to install Cytomine Community Edition, based on Docker compose.
 
-**DISCLAIMER :** the version of Cytomine installed using this procedure is still in development, and is made available only for testing purpose. Do NOT use for production, nor to migrate data from an older version of Cytomine.
+**DISCLAIMER :** the version of Cytomine Community Edition installed using this procedure is **still in development**, and is made available **only for testing** purpose. **Do NOT use for production**, nor to migrate data from an older version of Cytomine.
 
 ## How to launch a Cytomine local instance
 
