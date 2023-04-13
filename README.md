@@ -8,7 +8,7 @@ This repo provide the new way to install Cytomine Community Edition, based on Do
 
 ## How to launch a Cytomine local instance
 
-This installation procedure is for Debian based Linux operating systems. 
+This installation procedure is for desktop or laptop computers running a Debian based Linux operating systems. 
 
 You must have installed [Docker engine](https://docs.docker.com/engine/install/) and git, and have `root` permissions (sudo in Debian/Ubuntu).
 
