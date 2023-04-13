@@ -1,5 +1,9 @@
 # Cytomine Community Edition 
 
+Cytomine Community Edition is the new open source edition of the Cytomine software.
+
+*DISCLAIMER :* this version of Cytomine is still in development, and is made available only for testing purpose. Do NOT use for production.
+
 ## How to launch a Cytomine local instance
 
 This installation procedure is for Debian based Linux OS. 
@@ -21,3 +25,5 @@ The password of the `admin` account is available in the cytomine.yml file : `cat
 To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.cytomine.org/user-guide/).
 
 Note : All Cytomine data is stored in docker volumes (Postgres, Mongo, images and download buffers).
+
+DISCL
