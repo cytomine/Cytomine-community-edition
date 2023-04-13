@@ -2,7 +2,7 @@
 
 Cytomine Community Edition is the new open source edition of the Cytomine software.
 
-*DISCLAIMER :* this version of Cytomine is still in development, and is made available only for testing purpose. Do NOT use for production.
+**DISCLAIMER :** this version of Cytomine is still in development, and is made available only for testing purpose. Do NOT use for production.
 
 ## How to launch a Cytomine local instance
 
