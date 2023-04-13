@@ -12,8 +12,8 @@ This installation procedure is for Debian based Linux operating systems.
 
 You must have installed [Docker engine](https://docs.docker.com/engine/install/) and git, and have `root` permissions (sudo in Debian/Ubuntu).
 
-1. Clone the repository on your computer/server: `git clone https://github.com/cytomine/cytomine-community-edition.git`
-2. Go into the cloned folder: `cd cytomine-community-edition`
+1. Clone the repository on your computer/server: `git clone https://github.com/cytomine/Cytomine-community-edition.git`
+2. Go into the cloned folder: `cd Cytomine-community-edition`
 3. Edit the file `cytomine.yml` if you want to change default values (like URLs and/or SMTP setup)
 4. Launch the installer. This will create all the folders and files necessary to launch Cytomine: `sudo docker run -v $(pwd):/install --user "$(id -u):$(id -g)" --rm -it cytomine/installer:latest deploy -s /install`
 5. Launch cytomine: `sudo docker compose up -d`. As a side effect, this last command will write in your local `/etc/hosts` file.
