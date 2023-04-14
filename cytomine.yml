@@ -177,12 +177,3 @@ services:
         URLS_IMAGE_SERVER: urls.IMAGE_SERVER
         URLS_UPLOAD: urls.UPLOAD
         UPLOAD_PATH: container_paths.UPLOADED
-
-    etc_hosts_rewriter:
-      constant:
-        PROXY_HOSTNAME: nginx
-      global:
-        URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER
-        URL_IMS2: urls.IMAGE_SERVER
-        URL_UPLOAD: urls.UPLOAD
