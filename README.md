@@ -32,7 +32,7 @@ You also need to have set 3 URLs in your Domain Name Server. In this example it 
 2. Go into the cloned folder: `cd Cytomine-community-edition`
 3. Comment all sections related to `etc_hosts_rewriter` in `cytomine.yml` and `docker-compose.yml`
 4. Edit the file `cytomine.yml` if you want to change default values (like URLs and/or SMTP setup)
-5. Edit the file `configs/nginx/etc/nginx/nginx.conf.sample` with the correct information if you want SSL encryption directly on your Cytomine
+5. Edit the file `configs/nginx/etc/nginx/nginx.conf.sample` with the correct information if you want SSL encryption directly in your Cytomine
 6. Launch the installer. This will create all the folders and files necessary to launch Cytomine: `sudo docker run -v $(pwd):/install --user "$(id -u):$(id -g)" --rm -it cytomine/installer:latest deploy -s /install`
 7. Launch cytomine: `sudo docker compose up -d`
 
