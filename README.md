@@ -40,7 +40,7 @@ Your Cytomine should be accessible on the main URL you have set for CORE in your
 
 ## In all cases
 
-The password of the `admin` account is available in the cytomine.yml file : `cat cytomine.yml | greg ADMIN_PASSWORD:`
+The password of the `admin` account is available in the cytomine.yml file : `cat cytomine.yml | grep ADMIN_PASSWORD:`
 
 To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.cytomine.org/user-guide/).
 
