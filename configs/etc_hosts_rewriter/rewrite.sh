@@ -14,7 +14,7 @@ else
 fi
 
 if [ -z $IP ]; then
-  echo "Cannot resolve 'nginx' (no ip found), skipping /etc/hosts configuration."
+  echo "Cannot resolve '$PROXY_HOSTNAME' (no ip found), skipping /etc/hosts configuration."
   exit
 else
   if [ ! -z $URL_CORE ]; then
