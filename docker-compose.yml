@@ -33,30 +33,13 @@ services:
     container_name: bioformat
     restart: unless-stopped
     volumes:
-      - images_data:$CONTAINER_PATHS_IMAGES
+      - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
   
   pims-cache:
     image: $IMAGES_PIMS_CACHE
     container_name: pims-cache
     restart: unless-stopped
 
-  pims: 
-    image: $IMAGES_PIMS
-    container_name: pims
-    restart: unless-stopped
-    depends_on:
-      - nginx
-      - pims-cache
-      - rabbitmq
-    volumes:
-      - images_data:$CONTAINER_PATHS_IMAGES
-      - download_data:$CONTAINER_PATHS_UPLOADED  # why subpath of /data/images rather than another path ???
-    deploy:
-      resources:
-        # limits or reservations ?
-        reservations:
-          memory: 4G
-    
   core:
     image: $IMAGES_CORE
     container_name: core
@@ -80,18 +63,20 @@ services:
     image: $IMAGES_NGINX
     container_name: nginx
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     depends_on:
       - web_ui
     ports:
       - 80:80
     volumes:
-      - download_data:$CONTAINER_PATHS_UPLOADED
+      - $HOST_PATHS_UPLOADED:$CONTAINER_PATHS_UPLOADED
   
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
     image: alpine:latest
     # For local installations (branch ce-local-install), all IPs can be set to 127.0.0.1
-    entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh", "127.0.0.1"]
+    entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
     depends_on:
       - nginx
     volumes:
@@ -100,5 +85,3 @@ services:
 volumes:
   mongo_data:
   postgis_data:
-  images_data:
-  download_data:

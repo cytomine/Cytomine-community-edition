@@ -27,7 +27,7 @@ global:
     constant: 
       WEB_UI: web_ui
       CORE: core:8080
-      PIMS: pims:5000
+      PIMS: host.docker.internal:5000
       RABBITMQ: rabbitmq
       BIOFORMAT: bioformat
       MONGO: mongo
@@ -40,39 +40,35 @@ global:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
 
+  host_paths:
+    constant:
+      IMAGES: /data/images
+      UPLOADED: /tmp/uploaded
+
   javamelody:
     constant:
       DATA_PATH: /javamelody-core # inside container
       USER: admin
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   postgres:
     constant:
       PORT: 5432
       DB_NAME: docker
       USER: docker
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   mongodb:
     constant:
       USER: mongoadmin
       DB_NAME: cytomine
       PORT: 27017
-    auto:
-      PASS:
-        type: openssl
-        length: 32
+      PASS: password
 
   keys:
-    auto:
-      IMAGE_SERVER_PRIVATE: random_uuid
-      IMAGE_SERVER_PUBLIC: random_uuid
+    constant:
+      IMAGE_SERVER_PRIVATE: imageServerPrivateKey
+      IMAGE_SERVER_PUBLIC: imageServerPublicKey
 
   smtp:
     constant:
@@ -89,21 +85,19 @@ services:
         REVERSE_PROXY_URL: nginx
         INSTANCE_HOST_SUPPORT_MAIL:
         INSTANCE_HOST_PHONE_NUMBER:
+        ADMIN_PASSWORD: password
+        ADMIN_PRIVATE_KEY: adminPrivateKey
+        ADMIN_PUBLIC_KEY: adminPublicKey
+        SUPER_ADMIN_PRIVATE_KEY: superAdminPrivateKey
+        SUPER_ADMIN_PUBLIC_KEY: superAdminPublicKey
+        RABBITMQ_PRIVATE_KEY: rabbitmqPrivateKey
+        RABBITMQ_PUBLIC_KEY: rabbitmqPublicKey
+        SERVER_ID: devServerId
       auto:
-        SERVER_ID: random_uuid
         JWT_SECRET:
           type: secret
           length: 256
           whitelist: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'+.;^_~
-        ADMIN_PASSWORD:
-          type: openssl
-          length: 32
-        ADMIN_PRIVATE_KEY: random_uuid
-        ADMIN_PUBLIC_KEY: random_uuid
-        SUPER_ADMIN_PRIVATE_KEY: random_uuid
-        SUPER_ADMIN_PUBLIC_KEY: random_uuid
-        RABBITMQ_PRIVATE_KEY: random_uuid
-        RABBITMQ_PUBLIC_KEY: random_uuid
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
@@ -139,23 +133,6 @@ services:
     bioformat:
       constant:
         BIOFORMAT_PORT: 4321
-
-    pims:
-      constant:
-        WEB_CONCURRENCY: 4
-        MAX_REQUESTS: 25
-        LOG_CONFIG_FILE: /app/logging.yml
-        DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
-        DEFAULT_ANNOTATION_ORIGIN: LEFT_TOP
-        OUTPUT_SIZE_LIMIT: 10000
-        task_queue_enabled: false
-        cache_enabled: true
-      global: 
-        CYTOMINE_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        CYTOMINE_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
-        ROOT: container_paths.IMAGES
-        PENDING_PATH: container_paths.UPLOADED
-        PIMS_URL: urls_with_scheme.IMAGE_SERVER
 
     web_ui:
       global:
