@@ -96,8 +96,7 @@ services:
 
     web_ui:
       global:
-        WEB_UI_LISTEN_PORT: web_ui.PORT
-        ALLOWED_HOSTS: urls.CORE
+        PORT: web_ui.PORT
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
 
