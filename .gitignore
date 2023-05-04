@@ -1,0 +1,7 @@
+envs
+.env
+*.override.yml
+
+.idea
+**.iml
+.vscode
