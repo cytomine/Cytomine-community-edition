@@ -2,14 +2,14 @@ global:
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:v4.3.5-beta.6
+      CORE: cytomine/core:4.3.6
       MONGO: mongo:4.4.18-focal
       NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims:v0.13.6-beta.1
+      PIMS: cytomine/pims:0.13.6
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:v2.5.0-beta.2
+      WEB_UI: cytomine/web_ui:2.5.0
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
@@ -142,8 +142,8 @@ services:
 
     pims:
       constant:
-        WEB_CONCURRENCY: 4
-        MAX_REQUESTS: 25
+        WEB_CONCURRENCY: 16
+        MAX_REQUESTS: 0
         LOG_CONFIG_FILE: /app/logging.yml
         DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
         DEFAULT_ANNOTATION_ORIGIN: LEFT_TOP
