@@ -25,13 +25,16 @@ workflow:
     - when: always
 
 # Actual jobs should be defined in an instance ci-cd file (see current-deployment project)
-.check_cytomine_installation_ce:
+check_cytomine_installation_ce:
   extends: .check_cytomine_installation
 
 
-.install_cytomine_ce:
+install_cytomine_ce:
   extends: .install_cytomine
 
 
-.provision_cytomine_ce:
+provision_cytomine_ce:
   extends: .provision_cytomine
+
+update_cytomine_ce:
+  extends: .update_cytomine

@@ -1,3 +1,10 @@
-# This pipeline will trigger no job for now. It is currently only used for remote inclusion of cicd/*.yml files.
+# Secrets should never be versioned.
 include:
-  - local: 'cicd/.cytomine.ce.yml'
+  - template: Security/Secret-Detection.gitlab-ci.yml
+
+stages:
+  - test
+
+default:
+  tags:
+    - docker
