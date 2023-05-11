@@ -1,0 +1,3 @@
+# This pipeline will trigger no job for now. It is currently only used for remote inclusion of cicd/*.yml files.
+include:
+  - local: 'cicd/.cytomine.ce.yml'
