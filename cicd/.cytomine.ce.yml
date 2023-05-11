@@ -10,9 +10,8 @@ include:
 # Define here all variables related to Cytomine CE
 variables:
   CYTOMINE_PRODUCT_NAME: "Cytomine CE"
-  CYTOMINE_PRODUCT_REPO: "cm/rnd/cytomine/products/${CYTOMINE_PRODUCT_REPO_NAME}.git"
+  CYTOMINE_PRODUCT_REPO: "cm/rnd/cytomine/products/community-edition-ce.git"
   CYTOMINE_PRODUCT_REPO_BRANCH_OR_TAG_NAME: "main"
-  CYTOMINE_PRODUCT_REPO_NAME: "community-edition-ce"
   # Needed from caller:
   # INSTALLATION_ENV_NAME, INSTALLATION_ENV_URL, REMOTE_HOST, REMOTE_INSTALLATION_PATH, REMOTE_SSH_PORT, REMOTE_SSH_USER
 
