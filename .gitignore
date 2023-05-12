@@ -1,6 +1,7 @@
 envs
 .env
 *.override.yml
+cytomine.yml
 
 .idea
 **.iml
