@@ -80,6 +80,7 @@ global:
       PORT: 587
       USER: user
       PASS: password
+      TEST: TT
 
 services:
   default:
