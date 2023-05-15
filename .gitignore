@@ -6,3 +6,6 @@ cytomine.yml
 .idea
 **.iml
 .vscode
+
+data
+!data/*/empty

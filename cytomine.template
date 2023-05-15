@@ -40,6 +40,10 @@ global:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
 
+  host_paths:
+      constant:
+        PROJECT_DATA_PATH: ./data
+
   javamelody:
     constant:
       DATA_PATH: /javamelody-core # inside container
