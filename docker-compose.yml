@@ -98,18 +98,8 @@ services:
 
 volumes:
   mongo_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/mongo_data
 
   postgis_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/postgis_data
 
   images_data:
     driver: local
