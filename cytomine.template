@@ -99,6 +99,8 @@ services:
         PIMS_URL: urls_with_scheme.IMAGE_SERVER
 
     web_ui:
+      constant:
+        NODE_ENV=development
       global:
         PORT: web_ui.PORT
         URL_CORE: urls_with_scheme.CORE
