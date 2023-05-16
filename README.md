@@ -9,7 +9,7 @@ This repo provide the new way to install Cytomine Community Edition, based on Do
 ## Install
 
 Follow the installation procedure described here:
-https://doc.cytomine.org/admin-guide/install
+https://doc.cytomine.org/admin-guide/ce/ce-install
 
 ## In all cases
 

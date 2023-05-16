@@ -8,7 +8,7 @@ spring:
     host: $SMTP_HOST
     port: $SMTP_PORT
     username: $SMTP_USER
-    password: $SMPT_PASS
+    password: $SMTP_PASS
     auth: true
 
   data:
