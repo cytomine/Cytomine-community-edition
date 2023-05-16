@@ -6,14 +6,13 @@ services:
     container_name: mongo
     restart: unless-stopped
     volumes:
-      - mongo_data:/data/db 
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/mongo_data:/data/db
 
   postgis:
     image: $IMAGES_POSTGIS
     container_name: postgis
     restart: unless-stopped
     volumes:
-      #- postgis_data:/var/lib/postgresql
       - ${HOST_PATHS_PROJECT_DATA_PATH}/postgis_data/data:/var/lib/postgresql/data
     deploy:
       resources:
@@ -25,16 +24,13 @@ services:
     image: $IMAGES_RABBITMQ
     container_name: rabbitmq
     restart: unless-stopped
-    ports:
-      - 5672
-      - 15672
 
   bioformat:
     image: $IMAGES_BIOFORMAT
     container_name: bioformat
     restart: unless-stopped
     volumes:
-      - images_data:$CONTAINER_PATHS_IMAGES
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/images_data:$CONTAINER_PATHS_IMAGES
   
   pims-cache:
     image: $IMAGES_PIMS_CACHE
@@ -50,8 +46,8 @@ services:
       - pims-cache
       - rabbitmq
     volumes:
-      - images_data:$CONTAINER_PATHS_IMAGES
-      - download_data:$CONTAINER_PATHS_UPLOADED  # why subpath of /data/images rather than another path ???
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/images_data:$CONTAINER_PATHS_IMAGES
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/download_data:$CONTAINER_PATHS_UPLOADED
     deploy:
       resources:
         # limits or reservations ?
@@ -86,7 +82,7 @@ services:
     ports:
       - 80:80
     volumes:
-      - download_data:$CONTAINER_PATHS_UPLOADED
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/download_data:$CONTAINER_PATHS_UPLOADED
   
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
@@ -96,32 +92,3 @@ services:
       - nginx
     volumes:
       - /etc:/local_etc/
-
-volumes:
-  mongo_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/mongo_data
-
-  postgis_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/postgis_data
-
-  images_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/images_data
-
-  download_data:
-    driver: local
-    driver_opts:
-      o: bind
-      type: none
-      device: ${HOST_PATHS_PROJECT_DATA_PATH}/download_data
