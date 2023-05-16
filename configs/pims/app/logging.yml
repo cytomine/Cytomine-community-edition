@@ -31,6 +31,8 @@ loggers:
     level: DEBUG
   uvicorn.access:
     level: CRITICAL
+#  gunicorn.error:
+#    propagate: true
   cytomine.client:
     level: INFO
 

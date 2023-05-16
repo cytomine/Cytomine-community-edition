@@ -8,7 +8,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongo_data:/data/db 
+      - mongo_data:/data/db
 
   postgis:
     image: $IMAGES_POSTGIS
@@ -17,7 +17,7 @@ services:
     ports:
       - "$POSTGRES_PORT:5432"
     volumes:
-      - postgis_data:/var/lib/postgresql
+      - postgis_data:/var/lib/postgresql/data
     deploy:
       resources:
         # limits or reservations ?
@@ -58,7 +58,7 @@ services:
       - rabbitmq
     volumes:
       - images_data:$CONTAINER_PATHS_IMAGES
-      - download_data:$CONTAINER_PATHS_UPLOADED  # why subpath of /data/images rather than another path ???
+      - download_data:$CONTAINER_PATHS_UPLOADED
     deploy:
       resources:
         # limits or reservations ?
@@ -102,7 +102,7 @@ services:
       - nginx
     volumes:
       - /etc:/local_etc/
-
+    
 volumes:
   mongo_data:
   postgis_data:
