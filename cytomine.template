@@ -1,4 +1,8 @@
 global:
+  versions:
+    constant: 
+      CYTOMINE_COMMERCIAL: CE2023.1
+
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
@@ -9,7 +13,7 @@ global:
       PIMS: cytomine/pims:0.13.6
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:2.5.0
+      WEB_UI: cytomine/web_ui:2.6.0
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
@@ -166,6 +170,7 @@ services:
       global:
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
+        CYTOMINE_COMMERCIAL_VERSION: versions.CYTOMINE_COMMERCIAL
 
     postgis:
       global:
