@@ -8,4 +8,4 @@ cytomine.yml
 .vscode
 
 data
-!data/*/empty
+!data/README.md
