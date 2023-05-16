@@ -100,7 +100,7 @@ services:
 
     web_ui:
       constant:
-        NODE_ENV=development
+        NODE_ENV: development
       global:
         PORT: web_ui.PORT
         URL_CORE: urls_with_scheme.CORE
