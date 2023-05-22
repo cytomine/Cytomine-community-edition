@@ -1,5 +1,8 @@
 # Cytomine Community Edition 
 
+[![](https://img.shields.io/github/v/release/cytomine/Cytomine-community-edition)](https://github.com/cytomine/Cytomine-community-edition)
+[![](https://img.shields.io/docker/pulls/cytomine/installer)](https://hub.docker.com/r/cytomine/installer/)
+
 Cytomine Community Edition is the open source edition of the Cytomine software.
 
 This repo provide the new way to install Cytomine Community Edition, based on Docker compose.
