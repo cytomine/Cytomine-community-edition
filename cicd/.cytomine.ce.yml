@@ -16,13 +16,13 @@ variables:
   # INSTALLATION_ENV_NAME, INSTALLATION_ENV_URL, REMOTE_HOST, REMOTE_INSTALLATION_PATH, REMOTE_SSH_PORT, REMOTE_SSH_USER
 
 
-#workflow:
-#  rules:
-#    # Avoid merge request triggers
-#    - if: '$CI_PIPELINE_SOURCE != "push"'
-#      when: never
+workflow:
+  rules:
+    # Avoid merge request triggers
+    - if: '$CI_PIPELINE_SOURCE != "push"'
+      when: never
 
-#    - when: always
+    - when: always
 
 # Actual jobs should be defined in an instance ci-cd file (see current-deployment project)
 check_cytomine_installation_ce:
