@@ -32,7 +32,6 @@ check_cytomine_installation_ce:
 install_cytomine_ce:
   extends: .install_cytomine
 
-
 provision_cytomine_ce:
   extends: .provision_cytomine
 
