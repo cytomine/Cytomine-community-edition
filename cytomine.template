@@ -209,5 +209,4 @@ services:
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
-        URL_IMS2: urls.IMAGE_SERVER
         URL_UPLOAD: urls.UPLOAD
