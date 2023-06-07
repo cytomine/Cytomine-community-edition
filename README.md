@@ -1,42 +1,20 @@
 # Cytomine Community Edition 
 
+[![](https://img.shields.io/github/v/release/cytomine/Cytomine-community-edition)](https://github.com/cytomine/Cytomine-community-edition)
+[![](https://img.shields.io/docker/pulls/cytomine/installer)](https://hub.docker.com/r/cytomine/installer/)
+
 Cytomine Community Edition is the open source edition of the Cytomine software.
 
 This repo provide the new way to install Cytomine Community Edition, based on Docker compose.
 
-**DISCLAIMER :** the version of Cytomine Community Edition installed using this procedure is **still in development**, and is made available **only for testing** purpose. **Do NOT use for production**, nor to migrate data from an older version of Cytomine.
+## DISCLAIMERS
+* This version opens a new way to manage data within Cytomine. It is recommended for new projects starting from scratch, but NOT TO UPGRADE projects already running any Legacy edition of Cytomine (version 2 or 3). Please contact us if you have such needs.
+* This version do not include any AI engine for the moment. This will be added in next release. So if you need to run AI within your Cytomine, please consider the last release of the [Legacy edition of Cytomine](https://github.com/cytomine/Cytomine-bootstrap).
 
-## How to launch a Cytomine local instance
+## Install
 
-This installation procedure is for desktop or laptop computers running a Debian based Linux operating systems. 
-
-You must have installed [Docker engine](https://docs.docker.com/engine/install/) and git, and have `root` permissions (sudo in Debian/Ubuntu).
-
-1. Clone the repository on your computer: `git clone https://github.com/cytomine/Cytomine-community-edition.git`.
-2. Go into the cloned folder: `cd Cytomine-community-edition`.
-4. Edit the file `cytomine.template` if you want to change default values (like URLs and/or SMTP setup)
-5. Launch the installer. This will create all the folders and files necessary to launch Cytomine with Compose: `sudo docker run -v $(pwd):/install --user "$(id -u):$(id -g)" --rm -it cytomine/installer:latest deploy -s /install`
-6. Launch cytomine: `sudo docker compose up -d`. As a side effect, this last command will write in your local `/etc/hosts` file.
-
-If you have kept the default values your Cytomine is now available on http://cytomine.local
-
-## How to launch a Cytomine distant instance
-
-This installation procedure is for servers running a Debian based Linux operating systems. 
-
-You must have installed [Docker engine](https://docs.docker.com/engine/install/) and git, and have `root` permissions (sudo in Debian/Ubuntu).
-
-You also need to have set 3 URLs in your Domain Name Server. In this example it will be example.com, ims.example.com and upload.example.com.
-
-1. Clone the repository on your server: `git clone https://github.com/cytomine/Cytomine-community-edition.git`
-2. Go into the cloned folder: `cd Cytomine-community-edition`
-3. Switch to the server instance deployment branch: `git switch ce-server-install`
-4. Edit the file `cytomine.template` if you want to change default values (like URLs and/or SMTP setup)
-5. Edit the file `configs/nginx/etc/nginx/nginx.conf.sample` with the correct information if you want SSL encryption directly in your Cytomine
-6. Launch the installer. This will create all the folders and files necessary to launch Cytomine with Compose: `sudo docker run -v $(pwd):/install --user "$(id -u):$(id -g)" --rm -it cytomine/installer:latest deploy -s /install`
-7. Launch cytomine: `sudo docker compose up -d`
-
-Your Cytomine should be accessible on the main URL you have set for CORE in your `cytomine.yml`
+Follow the installation procedure described here:
+https://doc.cytomine.org/admin-guide/ce/ce-install
 
 ## In all cases
 
@@ -44,4 +22,4 @@ The password of the `admin` account is available in the cytomine.yml file : `cat
 
 To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.cytomine.org/user-guide/).
 
-Note : All Cytomine data is now stored in docker volumes (Postgres, Mongo, images and download buffers) and no mor on folders.
+Note : All Cytomine data is now stored in docker volumes (Postgres, Mongo, images and download buffers) and no more in folders.

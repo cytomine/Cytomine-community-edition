@@ -9,7 +9,7 @@ global:
       MONGO: mongo:4.4.18-focal
       NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims:0.13.6
+      PIMS: cytomine/pims-ce-package:0.0.1
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
 
@@ -69,6 +69,21 @@ global:
       IMAGE_SERVER_PRIVATE: imageServerPrivateKey
       IMAGE_SERVER_PUBLIC: imageServerPublicKey
 
+  image_metadata:
+    constant:
+      PREFIXES: >
+        APERIO=APERIO.
+        TIFF=TIFF.
+        HAMAMATSU=HAMAMATSU.
+        OPENSLIDE=OPENSLIDE.
+        EXIF=EXIF.
+        LEICA=LEICA.
+        JFIF=JFIF.
+        FILE=FILE.
+        PNG=PNG.
+        XMP=XMP.
+        VENTANA=VENTANA.
+
 services:
   default:
     mongo:
@@ -106,6 +121,7 @@ services:
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
         CYTOMINE_COMMERCIAL_VERSION: versions.CYTOMINE_COMMERCIAL
+        METADATA_PREFIXES: image_metadata.PREFIXES
 
     postgis:
       global:
@@ -131,5 +147,4 @@ services:
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
-        URL_IMS2: urls.IMAGE_SERVER
         URL_UPLOAD: urls.UPLOAD
