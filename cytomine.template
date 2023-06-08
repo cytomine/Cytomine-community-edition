@@ -71,7 +71,7 @@ global:
 
   image_metadata:
     constant:
-      PREFIXES: >
+      PREFIXES: |-
         APERIO=APERIO.
         TIFF=TIFF.
         HAMAMATSU=HAMAMATSU.
@@ -112,6 +112,10 @@ services:
         ROOT: container_paths.IMAGES
         PENDING_PATH: container_paths.UPLOADED
         PIMS_URL: urls_with_scheme.IMAGE_SERVER
+        REVERSE_PROXY_URL: internal_docker_urls.NGINX
+        URLS_CORE: urls.CORE
+        URLS_IMAGE_SERVER: urls.IMAGE_SERVER
+        URLS_UPLOAD: urls.UPLOAD
 
     web_ui:
       constant:
