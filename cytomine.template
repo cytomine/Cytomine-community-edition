@@ -92,7 +92,7 @@ global:
 
   image_metadata:
     constant:
-      PREFIXES: >
+      PREFIXES: |-
         APERIO=APERIO.
         TIFF=TIFF.
         HAMAMATSU=HAMAMATSU.
