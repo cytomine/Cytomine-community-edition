@@ -6,7 +6,7 @@ global:
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:4.3.6
+      CORE: cytomine/core:4.4.0
       MONGO: mongo:4.4.18-focal
       NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
@@ -108,6 +108,8 @@ global:
 services:
   default:
     core:
+      constant:
+        METADATA_PREFIXES_FILE_URI: /app/metaPrefix.properties
       auto:
         SERVER_ID: random_uuid
         JWT_SECRET:
@@ -123,7 +125,6 @@ services:
         SUPER_ADMIN_PUBLIC_KEY: random_uuid
         RABBITMQ_PRIVATE_KEY: random_uuid
         RABBITMQ_PUBLIC_KEY: random_uuid
-        METADATA_PREFIXES_FILE_URI: /app/metaPrefix.properties
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
