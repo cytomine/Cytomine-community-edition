@@ -104,6 +104,7 @@ global:
         PNG=PNG.
         XMP=XMP.
         VENTANA=VENTANA.
+        DICOM=DICOM.
 
 services:
   default:
