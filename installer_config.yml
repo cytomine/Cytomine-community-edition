@@ -8,6 +8,6 @@ update:
     - global.postgres.*
     - global.mongodb.*
     - global.keys.*
-    - global.smtp.*
     - global.image_metadata.*
     - services.*
+
