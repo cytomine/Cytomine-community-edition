@@ -111,6 +111,8 @@ global:
         XMP=XMP.
         VENTANA=VENTANA.
         DICOM=DICOM.
+        MIRAX=MIRAX.
+        ICC_PROFILE=ICC_PROFILE.
 
 services:
   default:
