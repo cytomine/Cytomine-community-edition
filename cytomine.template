@@ -1,4 +1,33 @@
+
+# -------------------------------------------------- # 
+# Update these to configure your instance
 global:
+  urls:
+    constant:
+      CORE: cytomine.local
+      IMAGE_SERVER: ims.cytomine.local
+      UPLOAD: upload.cytomine.local
+
+  urls_with_scheme:
+    constant:
+      CORE: http://cytomine.local
+      IMAGE_SERVER: http://ims.cytomine.local
+      UPLOAD: http://upload.cytomine.local
+
+  host_paths:
+      constant:
+        PROJECT_DATA_PATH: ./data
+
+  smtp:
+    constant:
+      HOST: mail.smtp
+      PORT: 587
+      USER: user
+      PASS: password
+
+# -------------------------------------------------- # 
+# Only update variables below if you know what you are doing
+
   versions:
     constant: 
       CYTOMINE_COMMERCIAL: CE2023.1
@@ -12,18 +41,6 @@ global:
       PIMS: cytomine/pims-ce-package:0.0.1
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
-
-  urls: # add these urls to your /etc/hosts (mapping nginx container ip)
-    constant:
-      CORE: cytomine.local
-      IMAGE_SERVER: ims.cytomine.local
-      UPLOAD: upload.cytomine.local
-
-  urls_with_scheme:
-    constant:
-      CORE: http://cytomine.local
-      IMAGE_SERVER: http://ims.cytomine.local
-      UPLOAD: http://upload.cytomine.local
 
   internal_docker_urls: # must match respective container hostnames from compose file
     constant: 
@@ -83,6 +100,7 @@ global:
         PNG=PNG.
         XMP=XMP.
         VENTANA=VENTANA.
+        DICOM=DICOM.
 
 services:
   default:
