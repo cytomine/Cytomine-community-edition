@@ -111,6 +111,7 @@ global:
         XMP=XMP.
         VENTANA=VENTANA.
         DICOM=DICOM.
+        MIRAX=MIRAX.
 
 services:
   default:
