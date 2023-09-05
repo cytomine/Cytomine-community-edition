@@ -1,5 +1,4 @@
-COPY --chmod=774 nginx-entrypoint.sh /nginx-entrypoint.sh
-# -------------------------------------------------- # 
+# -------------------------------------------------- #
 # Update these to configure your instance
 global:
   urls:
