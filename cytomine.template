@@ -36,9 +36,9 @@ global:
       BIOFORMAT: cytomine/bioformat:v1.2.0
       CORE: cytomine/core:4.4.0
       MONGO: cytomine/mongo:0.0.1
-      NGINX: cytomine/nginx:1.2.3
+      NGINX: cytomine/nginx:2.0.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims-ce-package:0.0.3
+      PIMS: cytomine/pims-ce-package:0.2.0
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
       WEB_UI: cytomine/web_ui:2.6.2
