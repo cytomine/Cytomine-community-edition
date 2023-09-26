@@ -14,8 +14,8 @@ global:
       UPLOAD: http://upload.cytomine.local
 
   host_paths:
-      constant:
-        PROJECT_DATA_PATH: ./data
+    constant:
+      PROJECT_DATA_PATH: ./data
 
   smtp:
     constant:
@@ -56,11 +56,6 @@ global:
       POSTGIS: postgis
 
   container_paths:
-    constant:
-      IMAGES: /data/images
-      UPLOADED: /tmp/uploaded
-
-  host_paths:
     constant:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
@@ -114,7 +109,6 @@ services:
     core:
       constant:
         ADMIN_EMAIL: info@cytomine.coop
-        REVERSE_PROXY_URL: nginx
         INSTANCE_HOST_SUPPORT_MAIL:
         INSTANCE_HOST_PHONE_NUMBER:
         ADMIN_PASSWORD: password
