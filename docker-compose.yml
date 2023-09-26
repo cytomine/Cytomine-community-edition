@@ -39,6 +39,8 @@ services:
     image: $IMAGES_PIMS_CACHE
     container_name: pims-cache
     restart: unless-stopped
+    ports:
+      - 6379:6379
 
   core:
     image: $IMAGES_CORE
