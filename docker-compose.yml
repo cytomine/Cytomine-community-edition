@@ -6,14 +6,14 @@ services:
     container_name: mongo
     restart: unless-stopped
     volumes:
-      - mongo_data:/data/db 
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/mongo:/data/db
 
   postgis:
     image: $IMAGES_POSTGIS
     container_name: postgis
     restart: unless-stopped
     volumes:
-      - postgis_data:/var/lib/postgresql
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/postgis/data:/var/lib/postgresql/data
     deploy:
       resources:
         # limits or reservations ?
@@ -33,7 +33,7 @@ services:
     container_name: bioformat
     restart: unless-stopped
     volumes:
-      - $HOST_PATHS_IMAGES:$CONTAINER_PATHS_IMAGES
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/images:$CONTAINER_PATHS_IMAGES
   
   pims-cache:
     image: $IMAGES_PIMS_CACHE
@@ -70,18 +70,13 @@ services:
     ports:
       - 80:80
     volumes:
-      - $HOST_PATHS_UPLOADED:$CONTAINER_PATHS_UPLOADED
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/upload:$CONTAINER_PATHS_UPLOADED
   
   # to map nginx ip with urls to host's /etc/hosts
   etc_hosts_rewriter:
     image: alpine:latest
-    # For local installations (branch ce-local-install), all IPs can be set to 127.0.0.1
     entrypoint: ["/bin/sh", "/cm_configs/rewrite.sh"]
     depends_on:
       - nginx
     volumes:
       - /etc:/local_etc/
-
-volumes:
-  mongo_data:
-  postgis_data:
