@@ -1,17 +1,7 @@
+# -------------------------------------------------- #
+# Update these to configure your instance
 global:
-  images:
-    constant:
-      BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:v4.3.5-beta.6
-      MONGO: mongo:4.4.18-focal
-      NGINX: cytomine/nginx:1.22.1-1.2.0
-      PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims:v0.13.6-beta.1
-      POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.0
-      RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:v2.5.0-beta.2
-
-  urls: # add these urls to your /etc/hosts (mapping nginx container ip)
+  urls:
     constant:
       CORE: cytomine.local
       IMAGE_SERVER: ims.cytomine.local
@@ -22,6 +12,36 @@ global:
       CORE: http://cytomine.local
       IMAGE_SERVER: http://ims.cytomine.local
       UPLOAD: http://upload.cytomine.local
+
+  host_paths:
+    constant:
+      PROJECT_DATA_PATH: ./data
+
+  smtp:
+    constant:
+      HOST: mail.smtp
+      PORT: 587
+      USER: user
+      PASS: password
+
+# -------------------------------------------------- #
+# Only update variables below if you know what you are doing
+
+  versions:
+    constant:
+      CYTOMINE_COMMERCIAL: CE2023.1
+
+  images:
+    constant:
+      BIOFORMAT: cytomine/bioformat:v1.2.0
+      CORE: cytomine/core:4.4.0
+      MONGO: cytomine/mongo:0.0.1
+      NGINX: cytomine/nginx:2.0.0
+      PIMS_CACHE: redis:7.0.8
+      PIMS: cytomine/pims-ce-package:0.2.0
+      POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
+      RABBITMQ: rabbitmq:3.10
+      WEB_UI: cytomine/web_ui:2.6.2
 
   internal_docker_urls: # must match respective container hostnames from compose file
     constant: 
@@ -36,11 +56,6 @@ global:
       POSTGIS: postgis
 
   container_paths:
-    constant:
-      IMAGES: /data/images
-      UPLOADED: /tmp/uploaded
-
-  host_paths:
     constant:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
@@ -70,19 +85,30 @@ global:
       IMAGE_SERVER_PRIVATE: imageServerPrivateKey
       IMAGE_SERVER_PUBLIC: imageServerPublicKey
 
-  smtp:
+
+  image_metadata:
     constant:
-      HOST: mail.smtp
-      PORT: 587
-      USER: user
-      PASS: password
+      PREFIXES: |-
+        APERIO=APERIO.
+        TIFF=TIFF.
+        HAMAMATSU=HAMAMATSU.
+        OPENSLIDE=OPENSLIDE.
+        EXIF=EXIF.
+        LEICA=LEICA.
+        JFIF=JFIF.
+        FILE=FILE.
+        PNG=PNG.
+        XMP=XMP.
+        VENTANA=VENTANA.
+        DICOM=DICOM.
+        MIRAX=MIRAX.
+        ICC_PROFILE=ICC_PROFILE.
 
 services:
   default:
     core:
       constant:
         ADMIN_EMAIL: info@cytomine.coop
-        REVERSE_PROXY_URL: nginx
         INSTANCE_HOST_SUPPORT_MAIL:
         INSTANCE_HOST_PHONE_NUMBER:
         ADMIN_PASSWORD: password
@@ -93,6 +119,7 @@ services:
         RABBITMQ_PRIVATE_KEY: rabbitmqPrivateKey
         RABBITMQ_PUBLIC_KEY: rabbitmqPublicKey
         SERVER_ID: devServerId
+        METADATA_PREFIXES_FILE_URI: /app/metaPrefix.properties
       auto:
         JWT_SECRET:
           type: secret
@@ -118,11 +145,14 @@ services:
         JAVAMELODY_PATH: javamelody.DATA_PATH
         JAVAMELODY_USER: javamelody.USER
         JAVAMELODY_PASS: javamelody.PASS
-        URL_CORE: urls_with_scheme.CORE
-        URL_IMS1: urls_with_scheme.IMAGE_SERVER
-        URL_IMS2: urls_with_scheme.IMAGE_SERVER
+        SERVER_URL: urls_with_scheme.CORE
+        REVERSE_PROXY_URL: internal_docker_urls.NGINX
+        IMAGE_SERVER_URL: urls_with_scheme.IMAGE_SERVER
+        URL_CORE: urls.CORE
+        URL_IMS1: urls.IMAGE_SERVER
         INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CORE
         STORAGE_PATH: container_paths.IMAGES
+        METADATA_PREFIXES: image_metadata.PREFIXES
 
     mongo:
       global:
@@ -138,6 +168,8 @@ services:
       global:
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
+        CYTOMINE_COMMERCIAL_VERSION: versions.CYTOMINE_COMMERCIAL
+        METADATA_PREFIXES: image_metadata.PREFIXES
 
     postgis:
       global:
@@ -161,5 +193,4 @@ services:
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
-        URL_IMS2: urls.IMAGE_SERVER
         URL_UPLOAD: urls.UPLOAD
