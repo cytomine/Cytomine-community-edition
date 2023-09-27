@@ -112,6 +112,7 @@ global:
         DICOM=DICOM.
         MIRAX=MIRAX.
         ICC_PROFILE=ICC_PROFILE.
+        OME=OME.
 
 services:
   default:
