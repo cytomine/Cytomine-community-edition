@@ -175,7 +175,7 @@ services:
 
     pims:
       constant:
-        WEB_CONCURRENCY: 16
+        WEB_CONCURRENCY: 8
         MAX_REQUESTS: 0
         LOG_CONFIG_FILE: /app/logging.yml
         DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
