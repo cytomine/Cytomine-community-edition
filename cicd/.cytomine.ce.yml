@@ -39,3 +39,8 @@ provision_cytomine_ce:
 
 update_cytomine_ce:
   extends: .update_cytomine
+
+restart_cytomine:
+  extends: .restart_cytomine
+  needs:
+    - job: update_cytomine_ce
