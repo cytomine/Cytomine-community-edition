@@ -2,7 +2,6 @@ update:
   allow_list:
     - global.versions.*
     - global.images.*
-    - global.internal_docker_urls.*
     - global.container_paths.*
     - global.javamelody.*
     - global.postgres.*
