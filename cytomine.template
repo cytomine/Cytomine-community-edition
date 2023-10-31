@@ -228,8 +228,6 @@ services:
         IMAGES_WEB_UI: images.WEB_UI
 
     etc_hosts_rewriter:
-      constant:
-        PROXY_HOSTNAME: nginx
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
