@@ -216,6 +216,16 @@ services:
         URLS_IMAGE_SERVER: urls.IMAGE_SERVER
         URLS_UPLOAD: urls.UPLOAD
         UPLOAD_PATH: container_paths.UPLOADED
+        VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
+        IMAGES_BIOFORMAT: images.BIOFORMAT
+        IMAGES_CORE: images.CORE
+        IMAGES_MONGO: images.MONGO
+        IMAGES_NGINX: images.NGINX
+        IMAGES_PIMS_CACHE: images.PIMS_CACHE
+        IMAGES_PIMS: images.PIMS
+        IMAGES_POSTGIS: images.POSTGIS
+        IMAGES_RABBITMQ: images.RABBITMQ
+        IMAGES_WEB_UI: images.WEB_UI
 
     etc_hosts_rewriter:
       constant:
