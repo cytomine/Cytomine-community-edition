@@ -34,7 +34,7 @@ global:
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:4.4.0
+      CORE: cytomine/core:4.4.1
       MONGO: cytomine/mongo:0.1.0
       NGINX: cytomine/nginx:2.0.0
       PIMS_CACHE: redis:7.0.8
@@ -175,7 +175,7 @@ services:
 
     pims:
       constant:
-        WEB_CONCURRENCY: 8
+        WEB_CONCURRENCY: 16
         MAX_REQUESTS: 0
         LOG_CONFIG_FILE: /app/logging.yml
         DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
@@ -228,6 +228,8 @@ services:
         IMAGES_WEB_UI: images.WEB_UI
 
     etc_hosts_rewriter:
+      constant:
+        PROXY_HOSTNAME: nginx
       global:
         URL_CORE: urls.CORE
         URL_IMS1: urls.IMAGE_SERVER
