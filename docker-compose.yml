@@ -5,6 +5,8 @@ services:
     image: $IMAGES_MONGO
     container_name: mongo
     restart: unless-stopped
+    ports:
+      - "27017:27017"
     volumes:
       - ${HOST_PATHS_PROJECT_DATA_PATH}/mongo:/data/db
 
@@ -12,6 +14,8 @@ services:
     image: $IMAGES_POSTGIS
     container_name: postgis
     restart: unless-stopped
+    ports:
+      - "$POSTGRES_PORT:5432"
     volumes:
       - ${HOST_PATHS_PROJECT_DATA_PATH}/postgis/data:/var/lib/postgresql/data
     deploy:
@@ -25,13 +29,15 @@ services:
     container_name: rabbitmq
     restart: unless-stopped
     ports:
-      - 5672
-      - 15672
+      - "5672:5672"
+      - "15672:15672"
 
   bioformat:
     image: $IMAGES_BIOFORMAT
     container_name: bioformat
     restart: unless-stopped
+    ports:
+      - "4321:4321"
     volumes:
       - ${HOST_PATHS_PROJECT_DATA_PATH}/images:$CONTAINER_PATHS_IMAGES
   
@@ -42,23 +48,21 @@ services:
     ports:
       - 6379:6379
 
-  core:
-    image: $IMAGES_CORE
-    container_name: core
-    restart: unless-stopped
-    depends_on:
-      - nginx
-      - postgis
-      - mongo
-      - rabbitmq
-    volumes:
-      - /etc/localtime:/etc/localtime
 
   web_ui:
-    image: $IMAGES_WEB_UI
+    build:
+      context: $HOST_PATHS_WEB_UI_SRC
+      dockerfile: docker/Dockerfile
+      target: dev-server
+      args:
+        SCRIPTS_REPO_TAG: latest
+    ports:
+      - "$WEB_UI_PORT:$WEB_UI_PORT"
+    working_dir: "/app"
     container_name: web_ui
     restart: unless-stopped
     volumes:
+      - $HOST_PATHS_WEB_UI_SRC:/app
       - /etc/localtime:/etc/localtime
 
   nginx:

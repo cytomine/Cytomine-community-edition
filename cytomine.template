@@ -34,19 +34,17 @@ global:
   images:
     constant:
       BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:4.4.0
-      MONGO: cytomine/mongo:0.0.1
-      NGINX: cytomine/nginx:2.0.0
+      MONGO: mongo:4.4.18-focal
+      NGINX: cytomine/nginx:1.22.1-1.2.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims-ce-package:0.2.0
+      PIMS: cytomine/pims-ce-package:0.0.1
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:2.6.2
 
   internal_docker_urls: # must match respective container hostnames from compose file
     constant: 
-      WEB_UI: web_ui
-      CORE: core:8080
+      WEB_UI: web_ui:8887
+      CORE: host.docker.internal:8080
       PIMS: host.docker.internal:5000
       RABBITMQ: rabbitmq
       BIOFORMAT: bioformat
@@ -55,16 +53,18 @@ global:
       PIMS_CACHE: pims_cache
       POSTGIS: postgis
 
+  web_ui:
+    constant:
+      PORT: 8887
+
+  host_paths:
+    constant:
+      WEB_UI_SRC: /code/Cytomine-Web-UI
+
   container_paths:
     constant:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
-
-  javamelody:
-    constant:
-      DATA_PATH: /javamelody-core # inside container
-      USER: admin
-      PASS: password
 
   postgres:
     constant:
@@ -84,7 +84,6 @@ global:
     constant:
       IMAGE_SERVER_PRIVATE: imageServerPrivateKey
       IMAGE_SERVER_PUBLIC: imageServerPublicKey
-
 
   image_metadata:
     constant:
@@ -106,54 +105,6 @@ global:
 
 services:
   default:
-    core:
-      constant:
-        ADMIN_EMAIL: info@cytomine.coop
-        INSTANCE_HOST_SUPPORT_MAIL:
-        INSTANCE_HOST_PHONE_NUMBER:
-        ADMIN_PASSWORD: password
-        ADMIN_PRIVATE_KEY: adminPrivateKey
-        ADMIN_PUBLIC_KEY: adminPublicKey
-        SUPER_ADMIN_PRIVATE_KEY: superAdminPrivateKey
-        SUPER_ADMIN_PUBLIC_KEY: superAdminPublicKey
-        RABBITMQ_PRIVATE_KEY: rabbitmqPrivateKey
-        RABBITMQ_PUBLIC_KEY: rabbitmqPublicKey
-        SERVER_ID: devServerId
-        METADATA_PREFIXES_FILE_URI: /app/metaPrefix.properties
-      auto:
-        JWT_SECRET:
-          type: secret
-          length: 256
-          whitelist: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'+.;^_~
-      global:
-        IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
-        IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        POSTGIS_HOST: internal_docker_urls.POSTGIS
-        POSTGIS_PORT: postgres.PORT
-        POSTGIS_DB_NAME: postgres.DB_NAME
-        POSTGIS_USER: postgres.USER
-        POSTGIS_PASS: postgres.PASS
-        SMTP_HOST: smtp.HOST
-        SMTP_PORT: smtp.PORT
-        SMTP_USER: smtp.USER
-        SMTP_PASS: smtp.PASS
-        MONGO_HOST: internal_docker_urls.MONGO
-        MONGO_PORT: mongodb.PORT
-        MONGO_USER: mongodb.USER
-        MONGO_PASS: mongodb.PASS
-        MONGO_DB_NAME: mongodb.DB_NAME
-        JAVAMELODY_PATH: javamelody.DATA_PATH
-        JAVAMELODY_USER: javamelody.USER
-        JAVAMELODY_PASS: javamelody.PASS
-        SERVER_URL: urls_with_scheme.CORE
-        REVERSE_PROXY_URL: internal_docker_urls.NGINX
-        IMAGE_SERVER_URL: urls_with_scheme.IMAGE_SERVER
-        URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER
-        INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CORE
-        STORAGE_PATH: container_paths.IMAGES
-        METADATA_PREFIXES: image_metadata.PREFIXES
-
     mongo:
       global:
         MONGO_INITDB_ROOT_USERNAME: mongodb.USER
@@ -165,7 +116,10 @@ services:
         BIOFORMAT_PORT: 4321
 
     web_ui:
+      constant:
+        NODE_ENV: development
       global:
+        PORT: web_ui.PORT
         URL_CORE: urls_with_scheme.CORE
         URL_UPLOAD: urls_with_scheme.UPLOAD
         CYTOMINE_COMMERCIAL_VERSION: versions.CYTOMINE_COMMERCIAL
