@@ -20,6 +20,38 @@ services:
         reservations:
           memory: 8G
 
+  elasticsearch:
+    image: $IMAGES_ELASTICSEARCH
+    container_name: elasticsearch
+    restart: unless-stopped
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - ${HOST_PATHS_PROJECT_DATA_PATH}/elasticsearch/data:/var/lib/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    mem_limit: 17179869184
+
+  logstash:
+    container_name: logstash
+    image: $IMAGES_LOGSTASH
+    command: logstash -f /usr/share/logstash/config/logstash.conf
+    volumes:
+      - ./configs/logstash:/usr/share/logstash/config
+      - ./configs/logstash:/usr/share/logstash/drivers
+    environment:
+      - POSTGRES_USER=$POSTGRES_USER
+      - POSTGRES_PASS=$POSTGRES_PASS
+    depends_on:
+      - elasticsearch
+      - postgis
+
   rabbitmq:
     image: $IMAGES_RABBITMQ
     container_name: rabbitmq
