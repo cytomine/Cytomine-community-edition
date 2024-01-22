@@ -54,7 +54,7 @@ global:
       MONGO: cytomine/mongo:0.1.0
       NGINX: cytomine/nginx:2.0.0
       PIMS_CACHE: redis:7.0.8
-      PIMS: cytomineuliege/pims:0.15.0-bp
+      PIMS: cytomineuliege/pims:bp-0.15.0
       POSTGIS: cytomine/postgis:1.3.0
       RABBITMQ: rabbitmq:3.10
       WEB_UI: cytomine/web_ui:2.6.2
