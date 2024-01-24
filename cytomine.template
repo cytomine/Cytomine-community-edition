@@ -15,7 +15,7 @@ global:
       PIMS: cytomineuliege/pims:bp-0.15.0
       POSTGIS: cytomine/postgis:15-3.3-alpine-1.2.1
       RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:bp-0.1.0
+      WEB_UI: cytomineuliege/web_ui:bp-0.1.1
 
   urls: # add these urls to your /etc/hosts (mapping nginx container ip)
     constant:
