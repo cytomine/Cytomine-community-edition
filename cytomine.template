@@ -24,12 +24,10 @@ global:
       TRAEFIK_HTTP_LISTEN_PORT: 1080
       TRAEFIK_HTTPS_LISTEN_PORT: 1443
 
-
   urls_with_scheme:
     constant:
       CYTOMINE_URL: ${AAA_CONFIG_SCHEME}://${AAA_CONFIG_CYTOMINE_HOST}
       INTERNAL_PROXY: http://${AAA_SERVICES_URI_NGINX}
-
 
   smtp:
     constant:
@@ -37,6 +35,19 @@ global:
       PORT: 587
       USER: user
       PASS: password
+
+  # Those are the URI to connect to the services.
+  # If you are running locally or on the same (swarm) docker network, you can use services names declared in the compose file
+  # You can also use IP or extrnal FQDNs
+  aaa_services_uri:
+    constant:
+      WEB_UI: web_ui
+      CORE: core:8080
+      PIMS: pims:5000
+      MONGO: mongo
+      NGINX: nginx
+      PIMS_CACHE: pims-cache:6379
+      POSTGIS: postgis
 
 # -------------------------------------------------- #
 # Only update variables below if you know what you are doing
@@ -49,20 +60,10 @@ global:
       CORE: cytomine/core:ce-5.0.0
       MONGO: cytomine/mongo:1.0.0
       NGINX: cytomine/nginx:3.0.0
-      PIMS_CACHE: redis:7.0.8
+      PIMS_CACHE: redis:7.2
       PIMS: cytomine/pims-ce-package:ce-1.0.0
       POSTGIS: cytomine/postgis:1.5.1
-      WEB_UI: cytomine/web_ui:ce-3.0.0
-
-  internal_docker_urls: # must match respective container hostnames from compose file
-    constant:
-      WEB_UI: web_ui
-      CORE: core:8080
-      PIMS: pims:5000
-      MONGO: mongo
-      NGINX: nginx
-      PIMS_CACHE: pims_cache
-      POSTGIS: postgis
+      WEB_UI: cytomine/web_ui:ce-3.0.1
 
   container_paths:
     constant:
@@ -122,7 +123,7 @@ services:
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        POSTGIS_HOST: internal_docker_urls.POSTGIS
+        POSTGIS_HOST: aaa_services_uri.POSTGIS
         POSTGIS_PORT: postgres.PORT
         POSTGIS_DB_NAME: postgres.DB_NAME
         POSTGIS_USER: postgres.USER
@@ -131,7 +132,7 @@ services:
         SMTP_PORT: smtp.PORT
         SMTP_USER: smtp.USER
         SMTP_PASS: smtp.PASS
-        MONGO_HOST: internal_docker_urls.MONGO
+        MONGO_HOST: aaa_services_uri.MONGO
         MONGO_PORT: mongodb.PORT
         MONGO_USER: mongodb.USER
         MONGO_PASS: mongodb.PASS
@@ -186,9 +187,8 @@ services:
         INTERNAL_URLS_WEB_UI: aaa_services_uri.WEB_UI
         INTERNAL_URLS_CORE: aaa_services_uri.CORE
         INTERNAL_URLS_IMS: aaa_services_uri.PIMS
-        INTERNAL_URLS_IMS2: aaa_services_uri.PIMS2
-        INTERNAL_URLS_IMS3: aaa_services_uri.PIMS3
-        #INTERNAL_URLS_APPENGINE: aaa_services_uri.APPENGINE
+        INTERNAL_URLS_IMS2: aaa_services_uri.PIMS
+        INTERNAL_URLS_IMS3: aaa_services_uri.PIMS
         VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
         IMAGES_CORE: images.CORE
         IMAGES_MONGO: images.MONGO
@@ -196,7 +196,6 @@ services:
         IMAGES_PIMS_CACHE: images.PIMS_CACHE
         IMAGES_PIMS: images.PIMS
         IMAGES_POSTGIS: images.POSTGIS
-        IMAGES_PROXY: images.PROXY
         IMAGES_WEB_UI: images.WEB_UI
         URLS_SCHEME: aaa_config.SCHEME
         URLS_INTERNAL_PROXY: aaa_services_uri.NGINX
