@@ -14,16 +14,6 @@ global:
       # External port to listen to. Customize if for example port 80 is already taken by a reverse proxy on the server
       NGINX_HTTP_LISTEN_PORT: 80
 
-      # If the option certs=true (./cytomine set certs true), the proxy can work in several configuration modes:
-      # `HTTP-only`                | (default) No certificates are generated. Listen only to `TRAEFIK_HTTP_LISTEN_PORT` port.                                                                                                                                                                                                                                                                                                                             |
-      # `LE-TLS-challenge`         | Generate LetsEncrypt certificates using [`TLS-ALPN-01`] challenge. Container must be reachable through port 443. Warning: Note that Let's Encrypt API has rate limiting.
-      # `LE-staging-TLS-challenge` | Same as `LE-TLS-challenge` but using staging CA server. Useful when installing to avoid hitting Let's Encrypt API rate limiting.
-      # `Custom-ACME`              | Use a custom ACME provider instead of Let's Encrypt. In that case, we use a custom CA's API to issue and renew certificates.
-      #                            | When `CONFIG=Custom-ACME` please provide values in the block 'services.traefik' below.
-      TRAEFIK_CONFIG: HTTP-only
-      TRAEFIK_HTTP_LISTEN_PORT: 1080
-      TRAEFIK_HTTPS_LISTEN_PORT: 1443
-
   urls_with_scheme:
     constant:
       CYTOMINE_URL: ${AAA_CONFIG_SCHEME}://${AAA_CONFIG_CYTOMINE_HOST}
