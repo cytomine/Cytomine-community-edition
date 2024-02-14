@@ -3,10 +3,10 @@
 global:
   aaa_config:
     constant:
-      # This should be the <host> part in your final external URL: https://<host or IP:port>/. Example: localhost, or 127.0.0.1:8080
+      # This should be the <host> part in your final external URL: http://<host or IP:port>/. Example: localhost, or 127.0.0.1:8080
       CYTOMINE_HOST: 127.0.0.1
       # must consist only of lowercase alphanumeric characters, hyphens, and underscores as well as start with a letter or number
-      NAME: cytomine
+      NAME: cytomine-ce
       # Where are the data stored. Warning, images can be heavy.
       PROJECT_DATA_PATH: ./data
       # URL scheme can be either 'http' or 'https'.
@@ -59,6 +59,10 @@ global:
     constant:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
+
+  compose:
+    constant:
+      PROJECT_NAME: ${AAA_CONFIG_NAME}
 
   javamelody:
     constant:
