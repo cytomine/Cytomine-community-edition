@@ -203,6 +203,7 @@ services:
         INTERNAL_URLS_IMS: aaa_services_uri.PIMS
         INTERNAL_URLS_IMS2: aaa_services_uri.PIMS
         INTERNAL_URLS_IMS3: aaa_services_uri.PIMS
+        INTERNAL_URLS_APPENGINE: aaa_services_uri.APPENGINE
         VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
         IMAGES_CORE: images.CORE
         IMAGES_MONGO: images.MONGO
