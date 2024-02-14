@@ -45,7 +45,5 @@ services:
   nginx:
     image: ${IMAGES_NGINX}
     restart: unless-stopped
-    depends_on:
-      - web_ui
     ports:
       - 80:80
