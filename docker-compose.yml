@@ -47,3 +47,13 @@ services:
     restart: unless-stopped
     ports:
       - 80:80
+
+  app-engine:
+    image: ${IMAGES_APPENGINE}
+    restart: unless-stopped
+
+  registry:
+    image: ${IMAGES_REGISTRY}
+    restart: unless-stopped
+    volumes:
+      - ${AAA_CONFIG_PROJECT_DATA_PATH}/registry:/data
