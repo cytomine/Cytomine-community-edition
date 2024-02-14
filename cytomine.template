@@ -214,7 +214,7 @@ services:
         URLS_SCHEME: aaa_config.SCHEME
         URLS_INTERNAL_PROXY: aaa_services_uri.NGINX
 
-      registry:
+    registry:
       constant:
         REGISTRY_STORAGE_DELETE_ENABLED: "true"
 
