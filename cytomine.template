@@ -1,21 +1,23 @@
 # -------------------------------------------------- #
 # Update these to configure your instance
 global:
-  urls:
+  aaa_config:
     constant:
-      CORE: cytomine.local
-      IMAGE_SERVER: ims.cytomine.local
-      UPLOAD: upload.cytomine.local
+      # This should be the <host> part in your final external URL: http://<host or IP:port>/. Example: localhost, or 127.0.0.1:8080
+      CYTOMINE_HOST: 127.0.0.1
+      # must consist only of lowercase alphanumeric characters, hyphens, and underscores as well as start with a letter or number
+      NAME: cytomine-ce
+      # Where are the data stored. Warning, images can be heavy.
+      PROJECT_DATA_PATH: ./data
+      # URL scheme can be either 'http' or 'https'.
+      SCHEME: http
+      # External port to listen to. Customize if for example port 80 is already taken by a reverse proxy on the server
+      NGINX_HTTP_LISTEN_PORT: 80
 
   urls_with_scheme:
     constant:
-      CORE: http://cytomine.local
-      IMAGE_SERVER: http://ims.cytomine.local
-      UPLOAD: http://upload.cytomine.local
-
-  host_paths:
-      constant:
-        PROJECT_DATA_PATH: ./data
+      CYTOMINE_URL: ${AAA_CONFIG_SCHEME}://${AAA_CONFIG_CYTOMINE_HOST}
+      INTERNAL_PROXY: http://${AAA_SERVICES_URI_NGINX}
 
   smtp:
     constant:
@@ -24,41 +26,43 @@ global:
       USER: user
       PASS: password
 
-# -------------------------------------------------- # 
-# Only update variables below if you know what you are doing
-
-  versions:
-    constant: 
-      CYTOMINE_COMMERCIAL: CE2023.1
-
-  images:
+  # Those are the URI to connect to the services.
+  # If you are running locally or on the same (swarm) docker network, you can use services names declared in the compose file
+  # You can also use IP or extrnal FQDNs
+  aaa_services_uri:
     constant:
-      BIOFORMAT: cytomine/bioformat:v1.2.0
-      CORE: cytomine/core:4.4.1
-      MONGO: cytomine/mongo:0.1.0
-      NGINX: cytomine/nginx:2.0.0
-      PIMS_CACHE: redis:7.0.8
-      PIMS: cytomine/pims-ce-package:0.3.0-pre
-      POSTGIS: cytomine/postgis:1.5.0
-      RABBITMQ: rabbitmq:3.10
-      WEB_UI: cytomine/web_ui:2.6.2
-
-  internal_docker_urls: # must match respective container hostnames from compose file
-    constant: 
       WEB_UI: web_ui
       CORE: core:8080
       PIMS: pims:5000
-      RABBITMQ: rabbitmq
-      BIOFORMAT: bioformat
       MONGO: mongo
       NGINX: nginx
-      PIMS_CACHE: pims_cache
+      PIMS_CACHE: pims-cache:6379
       POSTGIS: postgis
+
+# -------------------------------------------------- #
+# Only update variables below if you know what you are doing
+  versions:
+    constant:
+      CYTOMINE_COMMERCIAL: CE2024.1
+
+  images:
+    constant:
+      CORE: cytomine/core:ce-5.0.1
+      MONGO: cytomine/mongo:1.0.0
+      NGINX: cytomine/nginx:3.0.0
+      PIMS_CACHE: redis:7.2
+      PIMS: cytomine/pims-ce-package:ce-1.0.0
+      POSTGIS: cytomine/postgis:1.5.1
+      WEB_UI: cytomine/web_ui:ce-3.0.1
 
   container_paths:
     constant:
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
+
+  compose:
+    constant:
+      PROJECT_NAME: ${AAA_CONFIG_NAME}
 
   javamelody:
     constant:
@@ -94,31 +98,9 @@ global:
       IMAGE_SERVER_PRIVATE: random_uuid
       IMAGE_SERVER_PUBLIC: random_uuid
 
-
-  image_metadata:
-    constant:
-      PREFIXES: |-
-        APERIO=APERIO.
-        TIFF=TIFF.
-        HAMAMATSU=HAMAMATSU.
-        OPENSLIDE=OPENSLIDE.
-        EXIF=EXIF.
-        LEICA=LEICA.
-        JFIF=JFIF.
-        FILE=FILE.
-        PNG=PNG.
-        XMP=XMP.
-        VENTANA=VENTANA.
-        DICOM=DICOM.
-        MIRAX=MIRAX.
-        ICC_PROFILE=ICC_PROFILE.
-        OME=OME.
-
 services:
   default:
     core:
-      constant:
-        METADATA_PREFIXES_FILE_URI: /app/metaPrefix.properties
       auto:
         SERVER_ID: random_uuid
         JWT_SECRET:
@@ -132,12 +114,10 @@ services:
         ADMIN_PUBLIC_KEY: random_uuid
         SUPER_ADMIN_PRIVATE_KEY: random_uuid
         SUPER_ADMIN_PUBLIC_KEY: random_uuid
-        RABBITMQ_PRIVATE_KEY: random_uuid
-        RABBITMQ_PUBLIC_KEY: random_uuid
       global:
         IMAGE_SERVER_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         IMAGE_SERVER_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
-        POSTGIS_HOST: internal_docker_urls.POSTGIS
+        POSTGIS_HOST: aaa_services_uri.POSTGIS
         POSTGIS_PORT: postgres.PORT
         POSTGIS_DB_NAME: postgres.DB_NAME
         POSTGIS_USER: postgres.USER
@@ -146,7 +126,7 @@ services:
         SMTP_PORT: smtp.PORT
         SMTP_USER: smtp.USER
         SMTP_PASS: smtp.PASS
-        MONGO_HOST: internal_docker_urls.MONGO
+        MONGO_HOST: aaa_services_uri.MONGO
         MONGO_PORT: mongodb.PORT
         MONGO_USER: mongodb.USER
         MONGO_PASS: mongodb.PASS
@@ -154,14 +134,10 @@ services:
         JAVAMELODY_PATH: javamelody.DATA_PATH
         JAVAMELODY_USER: javamelody.USER
         JAVAMELODY_PASS: javamelody.PASS
-        SERVER_URL: urls_with_scheme.CORE
-        REVERSE_PROXY_URL: internal_docker_urls.NGINX
-        IMAGE_SERVER_URL: urls_with_scheme.IMAGE_SERVER
-        URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER
-        INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CORE
+        SERVER_URL: urls_with_scheme.CYTOMINE_URL
+        INSTANCE_HOST_WEBSITE_URL: urls_with_scheme.CYTOMINE_URL
         STORAGE_PATH: container_paths.IMAGES
-        METADATA_PREFIXES: image_metadata.PREFIXES
+        INTERNAL_PROXY_URL: urls_with_scheme.INTERNAL_PROXY
 
     mongo:
       global:
@@ -169,68 +145,51 @@ services:
         MONGO_INITDB_ROOT_PASSWORD: mongodb.PASS
         MONGO_INIT_DATABASE: mongodb.DB_NAME
 
-    bioformat:
-      constant:
-        BIOFORMAT_PORT: 4321
-
     pims:
       constant:
-        WEB_CONCURRENCY: 16
-        MAX_REQUESTS: 0
+        API_BASE_PATH: /ims
+        WEB_CONCURRENCY: 8
+        MAX_REQUESTS: 100000
         LOG_CONFIG_FILE: /app/logging.yml
         DEFAULT_IMAGE_SIZE_SAFETY_MODE: SAFE_REJECT
         DEFAULT_ANNOTATION_ORIGIN: LEFT_TOP
         OUTPUT_SIZE_LIMIT: 10000
-        task_queue_enabled: false
-        cache_enabled: true
-      global: 
+        TASK_QUEUE_ENABLED: false
+        CACHE_ENABLED: true
+        CACHE_URL: redis://${AAA_SERVICES_URI_PIMS_CACHE}
+      global:
         CYTOMINE_PUBLIC_KEY: keys.IMAGE_SERVER_PUBLIC
         CYTOMINE_PRIVATE_KEY: keys.IMAGE_SERVER_PRIVATE
         ROOT: container_paths.IMAGES
         PENDING_PATH: container_paths.UPLOADED
-        PIMS_URL: urls_with_scheme.IMAGE_SERVER
-        REVERSE_PROXY_URL: internal_docker_urls.NGINX
-        URL_CORE: urls.CORE
-        URL_IMAGE_SERVER: urls.IMAGE_SERVER
-        URL_UPLOAD: urls.UPLOAD
+        INTERNAL_URL_CORE: urls_with_scheme.INTERNAL_PROXY
 
     web_ui:
       global:
-        URL_CORE: urls_with_scheme.CORE
-        URL_UPLOAD: urls_with_scheme.UPLOAD
         CYTOMINE_COMMERCIAL_VERSION: versions.CYTOMINE_COMMERCIAL
-        METADATA_PREFIXES: image_metadata.PREFIXES
 
     postgis:
       global:
+        # Those default credentials will be either provisioned at first run
+        # or checked at subsequent boot.
         POSTGRES_USER: postgres.USER
         POSTGRES_PASSWORD: postgres.PASS
         POSTGRES_DB: postgres.DB_NAME
 
     nginx:
       global:
-        INTERNAL_URLS_WEB_UI: internal_docker_urls.WEB_UI
-        INTERNAL_URLS_CORE: internal_docker_urls.CORE
-        INTERNAL_URLS_IMS: internal_docker_urls.PIMS
-        URLS_CORE: urls.CORE
-        URLS_IMAGE_SERVER: urls.IMAGE_SERVER
-        URLS_UPLOAD: urls.UPLOAD
-        UPLOAD_PATH: container_paths.UPLOADED
+        INTERNAL_URLS_WEB_UI: aaa_services_uri.WEB_UI
+        INTERNAL_URLS_CORE: aaa_services_uri.CORE
+        INTERNAL_URLS_IMS: aaa_services_uri.PIMS
+        INTERNAL_URLS_IMS2: aaa_services_uri.PIMS
+        INTERNAL_URLS_IMS3: aaa_services_uri.PIMS
         VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
-        IMAGES_BIOFORMAT: images.BIOFORMAT
         IMAGES_CORE: images.CORE
         IMAGES_MONGO: images.MONGO
         IMAGES_NGINX: images.NGINX
         IMAGES_PIMS_CACHE: images.PIMS_CACHE
         IMAGES_PIMS: images.PIMS
         IMAGES_POSTGIS: images.POSTGIS
-        IMAGES_RABBITMQ: images.RABBITMQ
         IMAGES_WEB_UI: images.WEB_UI
-
-    etc_hosts_rewriter:
-      constant:
-        PROXY_HOSTNAME: nginx
-      global:
-        URL_CORE: urls.CORE
-        URL_IMS1: urls.IMAGE_SERVER
-        URL_UPLOAD: urls.UPLOAD
+        URLS_SCHEME: aaa_config.SCHEME
+        URLS_INTERNAL_PROXY: aaa_services_uri.NGINX
