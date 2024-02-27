@@ -62,7 +62,7 @@ global:
 
   container_paths:
     constant:
-      APPENGINE_DATA: /data/appengine
+      APPENGINE_DATA: /data
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
 
