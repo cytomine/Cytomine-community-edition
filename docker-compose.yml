@@ -52,7 +52,7 @@ services:
     image: ${IMAGES_APPENGINE}
     restart: unless-stopped
     volumes:
-      - ${AAA_CONFIG_PROJECT_DATA_PATH}/appengine:/data
+      - ${AAA_CONFIG_PROJECT_DATA_PATH}/app-engine:/data
 
   registry:
     image: ${IMAGES_REGISTRY}

@@ -62,7 +62,7 @@ global:
 
   container_paths:
     constant:
-      APPENGINE_DATA: /data
+      APPENGINE_FILE_STORAGE: /data
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
 
@@ -230,4 +230,4 @@ services:
         DB_NAME: postgres-appengine.DB_NAME
         DB_USERNAME: postgres-appengine.USER
         REGISTRY_HOST: aaa_services_uri.REGISTRY
-        STORAGE_BASE_PATH: container_paths.APPENGINE_DATA
+        STORAGE_BASE_PATH: container_paths.APPENGINE_FILE_STORAGE
