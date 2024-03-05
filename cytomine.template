@@ -38,6 +38,8 @@ global:
       NGINX: nginx
       PIMS_CACHE: pims-cache:6379
       POSTGIS: postgis
+      APPENGINE: app-engine:8080
+      REGISTRY: registry
 
 # -------------------------------------------------- #
 # Only update variables below if you know what you are doing
@@ -54,9 +56,12 @@ global:
       PIMS: cytomine/pims-ce-package:ce-1.0.0
       POSTGIS: cytomine/postgis:1.5.1
       WEB_UI: cytomine/web_ui:ce-3.0.1
+      APPENGINE: cytomine/app-engine:ce-0.1.0
+      REGISTRY: registry:2.8.3
 
   container_paths:
     constant:
+      APPENGINE_FILE_STORAGE: /data
       IMAGES: /data/images
       UPLOADED: /tmp/uploaded
 
@@ -78,6 +83,15 @@ global:
       PORT: 5432
       DB_NAME: docker
       USER: docker
+    auto:
+      PASS:
+        type: openssl
+        length: 32
+
+  postgres-appengine:
+    constant:
+      DB_NAME: appengine
+      USER: appengine
     auto:
       PASS:
         type: openssl
@@ -175,6 +189,10 @@ services:
         POSTGRES_USER: postgres.USER
         POSTGRES_PASSWORD: postgres.PASS
         POSTGRES_DB: postgres.DB_NAME
+        # Can also be passed to ensure credentials are created
+        APPENGINE_USER: postgres-appengine.USER
+        APPENGINE_PASSWORD: postgres-appengine.PASS
+        APPENGINE_DB: postgres-appengine.DB_NAME
 
     nginx:
       global:
@@ -183,6 +201,7 @@ services:
         INTERNAL_URLS_IMS: aaa_services_uri.PIMS
         INTERNAL_URLS_IMS2: aaa_services_uri.PIMS
         INTERNAL_URLS_IMS3: aaa_services_uri.PIMS
+        INTERNAL_URLS_APPENGINE: aaa_services_uri.APPENGINE
         VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
         IMAGES_CORE: images.CORE
         IMAGES_MONGO: images.MONGO
@@ -193,3 +212,19 @@ services:
         IMAGES_WEB_UI: images.WEB_UI
         URLS_SCHEME: aaa_config.SCHEME
         URLS_INTERNAL_PROXY: aaa_services_uri.NGINX
+
+    registry:
+      constant:
+        REGISTRY_STORAGE_DELETE_ENABLED: "true"
+
+    app-engine:
+      constant:
+        API_PREFIX: /app-engine/
+      global:
+        DB_HOST: aaa_services_uri.POSTGIS
+        DB_PORT: postgres.PORT
+        DB_NAME: postgres-appengine.DB_NAME
+        DB_USERNAME: postgres-appengine.USER
+        DB_PASSWORD: postgres-appengine.PASS
+        REGISTRY_HOST: aaa_services_uri.REGISTRY
+        STORAGE_BASE_PATH: container_paths.APPENGINE_FILE_STORAGE
