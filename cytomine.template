@@ -38,7 +38,6 @@ global:
       NGINX: nginx
       PIMS_CACHE: pims-cache:6379
       POSTGIS: postgis
-      POSTGRES_APPENGINE: postgis
       APPENGINE: app-engine:8080
       REGISTRY: registry
 
@@ -91,8 +90,6 @@ global:
 
   postgres-appengine:
     constant:
-      HOST: ${AAA_SERVICES_URI_POSTGRES_APPENGINE}
-      PORT: 5432
       DB_NAME: appengine
       USER: appengine
     auto:
@@ -224,10 +221,10 @@ services:
       constant:
         API_PREFIX: /app-engine/
       global:
-        DB_PASSWORD: postgres-appengine.PASS
-        DB_HOST: postgres-appengine.HOST
-        DB_PORT: postgres-appengine.PORT
+        DB_HOST: aaa_services_uri.POSTGIS
+        DB_PORT: postgres.PORT
         DB_NAME: postgres-appengine.DB_NAME
         DB_USERNAME: postgres-appengine.USER
+        DB_PASSWORD: postgres-appengine.PASS
         REGISTRY_HOST: aaa_services_uri.REGISTRY
         STORAGE_BASE_PATH: container_paths.APPENGINE_FILE_STORAGE
