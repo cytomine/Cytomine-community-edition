@@ -4,7 +4,9 @@ include:
   - cicd/.release.ce.yml
 
 stages:
+  - prepare
   - test
+  - release
 
 default:
   tags:
