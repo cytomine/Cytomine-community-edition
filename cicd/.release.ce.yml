@@ -32,6 +32,9 @@ workflow:
         RELEASE_TYPE: "PATCH"
       when: always
 
+    - if: $CI_PIPELINE_SOURCE == "trigger" && $ASSIGN_ENVIRONMENT_URL != "override me"
+      when: always
+
     # Do not trigger for other use cases
     # Only PATCH releases will trigger the creation of a new project release
     - when: never
@@ -72,7 +75,7 @@ create_release:
     ref: "$CI_COMMIT_SHA"
 
 # This job is triggered by the project cm/rnd/deployments/current-deployment by a trigger token
-# Its only prupose is to create the GitLab environment
+# Its only purpose is to create the GitLab environment
 "Assign this release to an env":
   stage: release
   variables:
