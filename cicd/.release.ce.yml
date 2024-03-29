@@ -37,7 +37,7 @@ workflow:
 
     # Do not trigger for other use cases
     # Only PATCH releases will trigger the creation of a new project release
-    - when: never
+    - when: always
 
 
 prepare_release:
