@@ -32,9 +32,6 @@ workflow:
         RELEASE_TYPE: "PATCH"
       when: always
 
-    - if: $CI_PIPELINE_SOURCE == "trigger" && $ASSIGN_ENVIRONMENT_URL != "override me"
-      when: always
-
     # Do not trigger for other use cases
     # Only PATCH releases will trigger the creation of a new project release
     - when: always
