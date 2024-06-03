@@ -33,6 +33,7 @@ services:
       - nginx
       - postgis
       - mongo
+      - iam
     volumes:
       - /etc/localtime:/etc/localtime
 
