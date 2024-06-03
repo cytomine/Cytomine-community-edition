@@ -40,24 +40,26 @@ global:
       POSTGIS: postgis
       APPENGINE: app-engine:8080
       REGISTRY: registry
+      IAM: iam:8080
 
 # -------------------------------------------------- #
 # Only update variables below if you know what you are doing
   versions:
     constant:
-      CYTOMINE_COMMERCIAL: CE2024.1
+      CYTOMINE_COMMERCIAL: CE2024.2
 
   images:
     constant:
       CORE: cytomine/core:ce-5.0.1
       MONGO: cytomine/mongo:1.0.0
-      NGINX: cytomine/nginx:3.0.0
+      NGINX: cytomine/nginx:3.0.2-dev
       PIMS_CACHE: redis:7.2
       PIMS: cytomine/pims-ce-package:ce-1.0.0
-      POSTGIS: cytomine/postgis:1.5.1
-      WEB_UI: cytomine/web_ui:ce-3.0.1
+      POSTGIS: cytomine/postgis:1.5.3-ci
+      WEB_UI: cytomine/web_ui:ce-3.0.0
       APPENGINE: cytomine/app-engine:ce-0.1.0
       REGISTRY: registry:2.8.3
+      IAM: cytomine/iam-ce:ce-1.0.4
 
   container_paths:
     constant:
@@ -92,6 +94,15 @@ global:
     constant:
       DB_NAME: appengine
       USER: appengine
+    auto:
+      PASS:
+        type: openssl
+        length: 32
+
+  postgres-iam:
+    constant:
+      DB_NAME: iam
+      USER: iam
     auto:
       PASS:
         type: openssl
@@ -153,6 +164,34 @@ services:
         STORAGE_PATH: container_paths.IMAGES
         INTERNAL_PROXY_URL: urls_with_scheme.INTERNAL_PROXY
 
+    iam:
+      auto:
+        KEYCLOAK_ADMIN_PASSWORD:
+          type: openssl
+          length: 32
+      constant:
+        KEYCLOAK_ADMIN: admin
+        KC_PROXY_HEADERS: xforwarded
+        KC_HTTP_RELATIVE_PATH: /iam
+        KC_HOSTNAME_STRICT_HTTPS: false
+        KC_HOSTNAME_STRICT_BACKCHANNEL: true
+        KC_FEATURES: token-exchange
+
+      global:
+        KC_DB_PASSWORD: postgres-iam.PASS
+        KC_DB_USERNAME: postgres-iam.USER
+        KC_DB_URL_DATABASE: postgres-iam.DB_NAME
+        KC_DB_URL_HOST: aaa_services_uri.POSTGIS
+        KC_DB_URL_PORT: postgres.PORT
+        KC_HOSTNAME: aaa_config.CYTOMINE_HOST
+        KC_HOSTNAME_ADMIN: aaa_config.CYTOMINE_HOST
+        KC_ADMIN_EMAIL: aaa_config.KC_ADMIN_EMAIL
+        KC_SMTP_HOST: smtp.HOST
+        KC_SMTP_PORT: smtp.PORT
+        KC_SMTP_USER: smtp.USER
+        KC_SMTP_PASS: smtp.PASS
+        KC_SMTP_FROM: smtp.FROM
+
     mongo:
       global:
         MONGO_INITDB_ROOT_USERNAME: mongodb.USER
@@ -193,6 +232,9 @@ services:
         APPENGINE_USER: postgres-appengine.USER
         APPENGINE_PASSWORD: postgres-appengine.PASS
         APPENGINE_DB: postgres-appengine.DB_NAME
+        IAM_USER: postgres-iam.USER
+        IAM_PASSWORD: postgres-iam.PASS
+        IAM_DB: postgres-iam.DB_NAME
 
     nginx:
       global:
@@ -202,6 +244,7 @@ services:
         INTERNAL_URLS_IMS2: aaa_services_uri.PIMS
         INTERNAL_URLS_IMS3: aaa_services_uri.PIMS
         INTERNAL_URLS_APPENGINE: aaa_services_uri.APPENGINE
+        INTERNAL_URLS_IAM: aaa_services_uri.IAM
         VERSIONS_CYTOMINE_COMMERCIAL: versions.CYTOMINE_COMMERCIAL
         IMAGES_CORE: images.CORE
         IMAGES_MONGO: images.MONGO
