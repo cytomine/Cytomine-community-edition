@@ -59,3 +59,10 @@ services:
     restart: unless-stopped
     volumes:
       - ${AAA_CONFIG_PROJECT_DATA_PATH}/registry:/data
+
+  iam:
+    image: ${IMAGES_IAM}
+    restart: unless-stopped
+    depends_on:
+      - nginx
+      - postgis
