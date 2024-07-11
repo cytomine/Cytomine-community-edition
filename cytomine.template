@@ -78,6 +78,12 @@ global:
         type: openssl
         length: 32
 
+  app-engine:
+    constant:
+      SCHEDULER_MASTER_URL: changeme
+      SCHEDULER_OAUTH_TOKEN: changeme
+      SCHEDULER_USERNAME: admin
+
   postgres:
     constant:
       PORT: 5432
@@ -228,3 +234,6 @@ services:
         DB_PASSWORD: postgres-appengine.PASS
         REGISTRY_HOST: aaa_services_uri.REGISTRY
         STORAGE_BASE_PATH: container_paths.APPENGINE_FILE_STORAGE
+        SCHEDULER_MASTER_URL: app-engine.SCHEDULER_MASTER_URL
+        SCHEDULER_OAUTH_TOKEN: app-engine.SCHEDULER_OAUTH_TOKEN
+        SCHEDULER_USERNAME: app-engine.SCHEDULER_USERNAME
