@@ -58,7 +58,7 @@ global:
 
   images:
     constant:
-      CORE: cytomine/core:ce-5.0.1
+      CORE: cytomine/core:5.1.0
       MONGO: cytomine/mongo:1.0.0
       NGINX: cytomine/nginx:3.0.0
       PIMS_CACHE: redis:7.2
