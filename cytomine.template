@@ -54,7 +54,7 @@ global:
 # Only update variables below if you know what you are doing
   versions:
     constant:
-      CYTOMINE_COMMERCIAL: CE2024.1
+      CYTOMINE_COMMERCIAL: CE2025.1
 
   images:
     constant:
