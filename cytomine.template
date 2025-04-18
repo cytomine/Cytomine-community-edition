@@ -64,7 +64,7 @@ global:
       PIMS_CACHE: redis:7.2
       PIMS: cytomine/pims-ce-package:ce-1.0.0
       POSTGIS: cytomine/postgis:1.5.1
-      WEB_UI: cytomine/web_ui:ce-3.0.1
+      WEB_UI: cytomine/web-ui:3.1.0
       APPENGINE: cytomine/app-engine:0.1.0
       REGISTRY: registry:2.8.3
 
