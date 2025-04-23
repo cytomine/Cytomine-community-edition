@@ -9,13 +9,12 @@ This repository provides the files to install Cytomine Community Edition, based 
 
 ## Install
 
-Follow [our guide to install Cytomine CE](https://doc.cytomine.com/admin-guide/ce/ce-install).
-
+Follow [our guide to install Cytomine CE](https://doc.cytomine.com/admin-guide/ce/installation).
 
 ## Usage
 
 To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.cytomine.com/user-guide).
 
 ## DISCLAIMERS
-* This installation is recommended for new Cytomine instances starting from scratch, but NOT TO UPGRADE Cytomine instances already running any Legacy edition of Cytomine (version 2 or 3). Please [contact us](mailto:info@cytomine.com) if you have such needs.
-* Cytomine CE currently do not include any App engine. If you need to run algorithms within your Cytomine, please consider the last release of the [Legacy edition of Cytomine](https://github.com/cytomine/Cytomine-bootstrap).
+
+- This installation is recommended for new Cytomine instances starting from scratch, but NOT TO UPGRADE Cytomine instances already running any Legacy edition of Cytomine (version 2 or 3). Please [contact us](mailto:info@cytomine.com) if you have such needs.
