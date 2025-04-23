@@ -42,22 +42,31 @@ global:
       REGISTRY: registry
       IAM: iam:8080
 
+  app-engine:
+    constant:
+      # The URL of the compute cluster
+      SCHEDULER_MASTER_URL: changeme
+      # The token provided by the compute cluster
+      SCHEDULER_OAUTH_TOKEN: changeme
+      # The username should be admin
+      SCHEDULER_USERNAME: admin
+
 # -------------------------------------------------- #
 # Only update variables below if you know what you are doing
   versions:
     constant:
-      CYTOMINE_COMMERCIAL: CE2024.2
+      CYTOMINE_COMMERCIAL: CE2025.1
 
   images:
     constant:
-      CORE: cytomine/core:ce-5.0.1
+      CORE: cytomine/core:5.1.0
       MONGO: cytomine/mongo:1.0.0
       NGINX: cytomine/nginx:3.0.2-dev
       PIMS_CACHE: redis:7.2
       PIMS: cytomine/pims-ce-package:ce-1.0.0
-      POSTGIS: cytomine/postgis:1.5.3-ci
-      WEB_UI: cytomine/web_ui:ce-3.0.0
-      APPENGINE: cytomine/app-engine:ce-0.1.0
+      POSTGIS: cytomine/postgis:1.5.1
+      WEB_UI: cytomine/web-ui:3.1.0
+      APPENGINE: cytomine/app-engine:0.1.0
       REGISTRY: registry:2.8.3
       IAM: cytomine/iam-ce:ce-1.0.4
 
@@ -271,3 +280,6 @@ services:
         DB_PASSWORD: postgres-appengine.PASS
         REGISTRY_HOST: aaa_services_uri.REGISTRY
         STORAGE_BASE_PATH: container_paths.APPENGINE_FILE_STORAGE
+        SCHEDULER_MASTER_URL: app-engine.SCHEDULER_MASTER_URL
+        SCHEDULER_OAUTH_TOKEN: app-engine.SCHEDULER_OAUTH_TOKEN
+        SCHEDULER_USERNAME: app-engine.SCHEDULER_USERNAME
