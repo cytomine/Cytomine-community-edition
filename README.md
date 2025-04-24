@@ -9,12 +9,12 @@ This repository provides the files to install Cytomine Community Edition, based 
 
 ## Install
 
-Follow [our guide to install Cytomine CE](https://doc.cytomine.com/admin-guide/ce/installation).
+Follow [our guide to install Cytomine CE](https://doc.uliege.cytomine.org/admin-guide/ce/installation).
 
 ## Usage
 
-To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.cytomine.com/user-guide).
+To learn how to use Cytomine please refer to the [user guide in our documentation](https://doc.uliege.cytomine.org/user-guide).
 
 ## DISCLAIMERS
 
-- This installation is recommended for new Cytomine instances starting from scratch, but NOT TO UPGRADE Cytomine instances already running any Legacy edition of Cytomine (version 2 or 3). Please [contact us](mailto:info@cytomine.com) if you have such needs.
+This installation is recommended for new Cytomine instances starting from scratch, but **NOT TO UPGRADE** Cytomine instances already running any Legacy edition of Cytomine (version 2 or 3). Please [contact us](mailto:uliege@cytomine.org) if you have such needs.
