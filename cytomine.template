@@ -13,6 +13,7 @@ global:
       SCHEME: http
       # External port to listen to. Customize if for example port 80 is already taken by a reverse proxy on the server
       NGINX_HTTP_LISTEN_PORT: 80
+      KC_ADMIN_EMAIL: mail@mail.com
 
   urls_with_scheme:
     constant:
@@ -25,6 +26,7 @@ global:
       PORT: 587
       USER: user
       PASS: password
+      FROM: mail@mail.com
 
   # Those are the URI to connect to the services.
   # If you are running locally or on the same (swarm) docker network, you can use services names declared in the compose file
@@ -40,7 +42,7 @@ global:
       POSTGIS: postgis
       APPENGINE: app-engine:8080
       REGISTRY: registry
-      IAM: iam:8080
+      IAM: iam:8100
 
   app-engine:
     constant:
@@ -64,7 +66,7 @@ global:
       NGINX: cytomine/nginx:3.0.2-dev
       PIMS_CACHE: redis:7.2
       PIMS: cytomine/pims-ce-package:ce-1.0.0
-      POSTGIS: cytomine/postgis:1.5.1
+      POSTGIS: cytomine/postgis:1.5.3-ci
       WEB_UI: cytomine/web-ui:3.1.0
       APPENGINE: cytomine/app-engine:0.1.0
       REGISTRY: registry:2.8.3
