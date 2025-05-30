@@ -70,7 +70,7 @@ global:
       WEB_UI: cytomine/web-ui:3.1.0
       APPENGINE: cytomine/app-engine:0.1.0
       REGISTRY: registry:2.8.3
-      IAM: cytomine/iam-ce:ce-1.0.4
+      IAM: cytomine/iam-ce:1.0.6.-ci
 
   container_paths:
     constant:
